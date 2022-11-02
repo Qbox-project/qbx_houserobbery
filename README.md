@@ -1,6 +1,8 @@
 # qb-houserobbery
 House Robberies For QB-Core
 
-## Dependencies
-- qb-lockpick: https://github.com/qbcore-framework/qb-lockpick
-- qb-skillbar: https://github.com/qbcore-framework/qb-skillbar
+- [ ] Add more higher tier interiors
+- [ ] Alarm system
+- [ ] Add "No handshoes" again
+- [ ] Limit to night only again
+- [ ] NPCs?

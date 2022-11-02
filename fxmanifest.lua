@@ -6,13 +6,14 @@ version '1.0.0'
 
 shared_scripts {
     'config.lua',
+    '@ox_lib/init.lua',
     '@qb-core/shared/locale.lua',
     'locales/en.lua',
     'locales/*.lua'
 }
 
-client_script 'client/main.lua'
-server_script 'server/main.lua'
+client_script 'client.lua'
+server_script 'server.lua'
 
 dependencies {
     'qb-lockpick',

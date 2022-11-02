@@ -1,14 +1,16 @@
 local Translations = {
-    error = {
-        ["missing_something"] = "It looks like you are missing something...",
-        ["not_enough_police"] = "Not enough Police..",
-        ["door_open"] = "The door is already open..",
-        ["process_cancelled"] = "Process Canceled..",
-        ["didnt_work"] = "It did not work..",
-        ["emty_box"] = "The Box Is Empty..",
+    text = {
+        enter_house = '~g~E~w~ - Enter House',
+        leave_house = '~g~E~w~ - Leave House',
+        search = '~g~E~w~ - Search Around',
+        pickup = '~g~E~w~ - Grab %{Item}'
     },
-    success = {
-        ["worked"] = "It worked!",
+    notify = {
+        no_police = 'Not Enough Police (%{Required} Required)',
+        fail_skillcheck = 'Failed Skillcheck',
+        success_skillcheck = 'Successful Skillcheck',
+        busy = 'Someone is already on it',
+        police_alert = 'Suspicious activity near owned property'
     }
 }
 
