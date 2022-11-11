@@ -1,6 +1,7 @@
 local Translations = {
     text = {
         enter_house = '~g~E~w~ - Enter House',
+        enter_requirements = 'Lockpick | Screwdriver set',
         leave_house = '~g~E~w~ - Leave House',
         search = '~g~E~w~ - Search Around',
         pickup = '~g~E~w~ - Grab %{Item}'
