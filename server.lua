@@ -75,7 +75,7 @@ AddEventHandler('lockpicks:UseLockpick', function(PlayerSource, IsAdvanced)
     if not House then return end
     if House.opened then return end
     if not IsAdvanced and not Player.Functions.GetItemByName(Config.RequiredItems[2]) then return end
-    if Amount < Config.MinimumCops then if Config.NotEnoughCopsNotify then QBCore.Functions.Notify(PlayerSource, Lang:t('notify.no_police', { Required = Config.MinimumCops }), 'error') end return end
+    if Amount < Config.MinimumHouseRobberyPolice then if Config.NotEnoughCopsNotify then QBCore.Functions.Notify(PlayerSource, Lang:t('notify.no_police', { Required = Config.MinimumHouseRobberyPolice }), 'error') end return end
 
     local Result = lib.callback.await('qb-houserobbery:callback:checkTime', PlayerSource)
 
@@ -85,7 +85,7 @@ AddEventHandler('lockpicks:UseLockpick', function(PlayerSource, IsAdvanced)
 
     if Skillcheck then
         Config.Houses[ClosestHouseIndex].opened = true
-        QBCore.Functions.Notify(PlayerSource, Lang:t('notify.success_skillcheck', { Required = Config.MinimumCops }), 'success')
+        QBCore.Functions.Notify(PlayerSource, Lang:t('notify.success_skillcheck'), 'success')
         TriggerClientEvent('qb-houserobbery:client:syncconfig', -1, Config.Houses[ClosestHouseIndex], ClosestHouseIndex)
         EnterHouse(PlayerSource, Config.Interiors[House.interior].exit, House.routingbucket, ClosestHouseIndex)
         PoliceAlert(Lang:t('notify.police_alert'), House)

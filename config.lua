@@ -1,12 +1,11 @@
 Config = {}
 
-Config.MinimumHouseRobberyPolice = 2
 Config.Hours = {
     Start = 22,
     End = 5
 }
 Config.FingerDropChance = 50
-Config.MinimumCops = 2
+Config.MinimumHouseRobberyPolice = 2
 Config.NotEnoughCopsNotify = true
 Config.UseDrawText = false
 Config.RequiredItems = { 'advancedlockpick', 'screwdriverset' }
