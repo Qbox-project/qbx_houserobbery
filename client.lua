@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = exports['qbx-core']:GetCoreObject()
 local House = 1
 
 local function DrawText3D(coords, text)
@@ -29,7 +29,7 @@ CreateThread(function()
                 Nearby = true
                 House = i
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true exports['qb-core']:DrawText(Lang:t('text.enter_house')) end
+                    if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.enter_house')) end
                 else
                     DrawText3D(Config.Houses[i].coords, Lang:t('text.enter_house'))
                 end
@@ -43,13 +43,13 @@ CreateThread(function()
                 WaitTime = 0
                 Nearby = true
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true exports['qb-core']:DrawText(Lang:t('text.enter_requirements')) end
+                    if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.enter_requirements')) end
                 else
                     DrawText3D(Config.Houses[i].coords, Lang:t('text.enter_requirements'))
                 end
             end
         end
-        if not Nearby and HasShownText then HasShownText = false exports['qb-core']:HideText() end
+        if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
         Wait(WaitTime)
     end
 end)
@@ -66,7 +66,7 @@ CreateThread(function()
                 WaitTime = 0
                 Nearby = true
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true exports['qb-core']:DrawText(Lang:t('text.leave_house')) end
+                    if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.leave_house')) end
                 else
                     DrawText3D(Exit, Lang:t('text.leave_house'))
                 end
@@ -78,7 +78,7 @@ CreateThread(function()
                 end
             end
         end
-        if not Nearby and HasShownText then HasShownText = false exports['qb-core']:HideText() end
+        if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
         Wait(WaitTime)
     end
 end)
@@ -95,7 +95,7 @@ CreateThread(function()
                     WaitTime = 0
                     Nearby = true
                     if Config.UseDrawText then
-                        if not HasShownText then HasShownText = true exports['qb-core']:DrawText(Lang:t('text.search')) end
+                        if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.search')) end
                     else
                         DrawText3D(Config.Houses[House].loot[i].coords, Lang:t('text.search'))
                     end
@@ -129,7 +129,7 @@ CreateThread(function()
                 end
             end
         end
-        if not Nearby and HasShownText then HasShownText = false exports['qb-core']:HideText() end
+        if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
         Wait(WaitTime)
     end
 end)
@@ -146,7 +146,7 @@ CreateThread(function()
                     WaitTime = 0
                     Nearby = true
                     if Config.UseDrawText then
-                        if not HasShownText then HasShownText = true exports['qb-core']:DrawText(Lang:t('text.pickup', { Item = QBCore.Shared.Items[Config.Houses[House].pickups[i].reward]['label'] })) end
+                        if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.pickup', { Item = QBCore.Shared.Items[Config.Houses[House].pickups[i].reward]['label'] })) end
                     else
                         DrawText3D(Config.Houses[House].pickups[i].coords, Lang:t('text.pickup', { Item = QBCore.Shared.Items[Config.Houses[House].pickups[i].reward]['label'] }))
                     end
@@ -186,7 +186,7 @@ CreateThread(function()
                 end
             end
         end
-        if not Nearby and HasShownText then HasShownText = false exports['qb-core']:HideText() end
+        if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
         Wait(WaitTime)
     end
 end)
