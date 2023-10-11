@@ -20,3 +20,4 @@ client_script 'client.lua'
 server_script 'server.lua'
 
 lua54 'yes'
+use_experimental_fxv2_oal 'yes'
