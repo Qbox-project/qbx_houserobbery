@@ -1,4 +1,3 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local StartedLoot = {}
 local StartedPickup = {}
 
@@ -19,7 +18,7 @@ local function GetClosestHouse(Coords)
 end
 
 local function EnterHouse(Source, Coords, Bucket, ClosestHouseIndex)
-    SetResourceKvpInt(QBCore.Functions.GetPlayer(Source).PlayerData.citizenid, ClosestHouseIndex)
+    SetResourceKvpInt(exports.qbx_core:GetPlayer(Source).PlayerData.citizenid, ClosestHouseIndex)
     TriggerClientEvent('qb-interior:client:screenfade', Source)
     Wait(200)
     local Ped = GetPlayerPed(Source)
@@ -66,16 +65,16 @@ local function PoliceAlert(Text, House)
 end
 
 AddEventHandler('lockpicks:UseLockpick', function(PlayerSource, IsAdvanced)
-    local Player = QBCore.Functions.GetPlayer(PlayerSource)
+    local Player = exports.qbx_core:GetPlayer(PlayerSource)
     local PlayerCoords = GetEntityCoords(GetPlayerPed(PlayerSource))
     local ClosestHouseIndex = GetClosestHouse(PlayerCoords)
     local House = Config.Houses[ClosestHouseIndex]
-    local Amount = QBCore.Functions.GetDutyCountType('leo')
+    local Amount = exports.qbx_core:GetDutyCountType('leo')
 
     if not House then return end
     if House.opened then return end
     if not IsAdvanced and not Player.Functions.GetItemByName(Config.RequiredItems[2]) then return end
-    if Amount < Config.MinimumHouseRobberyPolice then if Config.NotEnoughCopsNotify then QBCore.Functions.Notify(PlayerSource, Lang:t('notify.no_police', { Required = Config.MinimumHouseRobberyPolice }), 'error') end return end
+    if Amount < Config.MinimumHouseRobberyPolice then if Config.NotEnoughCopsNotify then exports.qbx_core:Notify(PlayerSource, Lang:t('notify.no_police', { Required = Config.MinimumHouseRobberyPolice }), 'error') end return end
 
     local Result = lib.callback.await('qb-houserobbery:callback:checkTime', PlayerSource)
 
@@ -85,12 +84,12 @@ AddEventHandler('lockpicks:UseLockpick', function(PlayerSource, IsAdvanced)
 
     if Skillcheck then
         Config.Houses[ClosestHouseIndex].opened = true
-        QBCore.Functions.Notify(PlayerSource, Lang:t('notify.success_skillcheck'), 'success')
+        exports.qbx_core:Notify(PlayerSource, Lang:t('notify.success_skillcheck'), 'success')
         TriggerClientEvent('qb-houserobbery:client:syncconfig', -1, Config.Houses[ClosestHouseIndex], ClosestHouseIndex)
         EnterHouse(PlayerSource, Config.Interiors[House.interior].exit, House.routingbucket, ClosestHouseIndex)
         PoliceAlert(Lang:t('notify.police_alert'), House)
     else
-        QBCore.Functions.Notify(PlayerSource, Lang:t('notify.fail_skillcheck'), 'error')
+        exports.qbx_core:Notify(PlayerSource, Lang:t('notify.fail_skillcheck'), 'error')
     end
 end)
 
@@ -107,7 +106,7 @@ end)
 
 RegisterNetEvent('qb-houserobbery:server:leaveHouse', function()
     local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local Index = GetResourceKvpInt(QBCore.Functions.GetPlayer(source).PlayerData.citizenid)
+    local Index = GetResourceKvpInt(exports.qbx_core:GetPlayer(source).PlayerData.citizenid)
     local Exit = vector3(Config.Interiors[Config.Houses[Index].interior].exit.x, Config.Interiors[Config.Houses[Index].interior].exit.y, Config.Interiors[Config.Houses[Index].interior].exit.z)
 
     if #(PlayerCoords - Exit) > 3 then return end
@@ -120,7 +119,7 @@ lib.callback.register('qb-houserobbery:callback:checkLoot', function(source, Hou
     local Loot = Config.Houses[HouseIndex].loot[LootIndex]
 
     if #(PlayerCoords - Loot.coords) > 3 then return end
-    if Loot.isBusy then QBCore.Functions.Notify(source, Lang:t('notify.busy')) return end
+    if Loot.isBusy then exports.qbx_core:Notify(source, Lang:t('notify.busy')) return end
     if Loot.isOpened then return end
     if not Config.Houses[HouseIndex].opened then return end
 
@@ -131,7 +130,7 @@ end)
 
 RegisterNetEvent('qb-houserobbery:server:lootFinished', function(HouseIndex, LootIndex)
     local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local Player = QBCore.Functions.GetPlayer(source)
+    local Player = exports.qbx_core:GetPlayer(source)
     local Loot = Config.Houses[HouseIndex].loot[LootIndex]
     local Reward = Config.Rewards[Loot.pool[math.random(#Loot.pool)]]
 
@@ -164,7 +163,7 @@ lib.callback.register('qb-houserobbery:callback:checkPickup', function(source, H
     local Pickup = Config.Houses[HouseIndex].pickups[PickupIndex]
 
     if #(PlayerCoords - Pickup.coords) > 3 then return end
-    if Pickup.isBusy then QBCore.Functions.Notify(source, Lang:t('notify.busy')) return end
+    if Pickup.isBusy then exports.qbx_core:Notify(source, Lang:t('notify.busy')) return end
     if Pickup.isOpened then return end
 
     StartedPickup[source] = true
@@ -174,7 +173,7 @@ end)
 
 RegisterNetEvent('qb-houserobbery:server:pickupFinished', function(HouseIndex, PickupIndex)
     local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local Player = QBCore.Functions.GetPlayer(source)
+    local Player = exports.qbx_core:GetPlayer(source)
     local Pickup = Config.Houses[HouseIndex].pickups[PickupIndex]
 
     if #(PlayerCoords - Pickup.coords) > 3 then return end
@@ -230,5 +229,3 @@ end)
 AddEventHandler('playerJoining', function(source)
     TriggerClientEvent('qb-houserobbery:client:syncconfig', source, Config.Houses)
 end)
-
-lib.versionCheck('Qbox-project/qb-houserobbery')
