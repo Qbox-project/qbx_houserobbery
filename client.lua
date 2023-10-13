@@ -1,21 +1,4 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local House = 1
-
-local function DrawText3D(coords, text)
-    SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextColour(255, 255, 255, 215)
-    BeginTextCommandDisplayText('STRING')
-    SetTextCentre(true)
-    AddTextComponentSubstringPlayerName(text)
-    SetDrawOrigin(coords.x, coords.y, coords.z, 0)
-    EndTextCommandDisplayText(0.0, 0.0)
-    local factor = (string.len(text)) / 370
-    DrawRect(0.0, 0.0 + 0.0125, 0.017 + factor, 0.03, 0, 0, 0, 75)
-    ClearDrawOrigin()
-end
-
-local function LoadAnimDict(dict) while not HasAnimDictLoaded(dict) do RequestAnimDict(dict) Wait(0) end end
 
 CreateThread(function()
     local HasShownText
@@ -29,12 +12,15 @@ CreateThread(function()
                 Nearby = true
                 House = i
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.enter_house')) end
+                    if not HasShownText then
+                        HasShownText = true
+                        lib.showTextUI(Lang:t('text.enter_house'), {position = 'left-center'})
+                    end
                 else
-                    DrawText3D(Config.Houses[i].coords, Lang:t('text.enter_house'))
+                    DrawText3D(Lang:t('text.enter_house'), Config.Houses[i].coords)
                 end
                 if IsControlJustReleased(0, 38) then
-                    LoadAnimDict('anim@heists@keycard@')
+                    lib.requestAnimDict('anim@heists@keycard@')
                     TaskPlayAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
                     TriggerServerEvent('qb-houserobbery:server:enterHouse', i)
                     RemoveAnimDict('anim@heists@keycard@')
@@ -43,9 +29,12 @@ CreateThread(function()
                 WaitTime = 0
                 Nearby = true
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.enter_requirements')) end
+                    if not HasShownText then
+                        HasShownText = true
+                        lib.showTextUI(Lang:t('text.enter_requirements'), {position = 'left-center'})
+                    end
                 else
-                    DrawText3D(Config.Houses[i].coords, Lang:t('text.enter_requirements'))
+                    DrawText3D(Lang:t('text.enter_requirements'), Config.Houses[i].coords)
                 end
             end
         end
@@ -66,12 +55,15 @@ CreateThread(function()
                 WaitTime = 0
                 Nearby = true
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.leave_house')) end
+                    if not HasShownText then
+                        HasShownText = true
+                        lib.showTextUI(Lang:t('text.leave_house'), {position = 'left-center'})
+                    end
                 else
-                    DrawText3D(Exit, Lang:t('text.leave_house'))
+                    DrawText3D(Lang:t('text.leave_house'), Exit)
                 end
                 if IsControlJustReleased(0, 38) then
-                    LoadAnimDict('anim@heists@keycard@')
+                    lib.requestAnimDict('anim@heists@keycard@')
                     TaskPlayAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
                     TriggerServerEvent('qb-houserobbery:server:leaveHouse')
                     RemoveAnimDict('anim@heists@keycard@')
@@ -95,12 +87,15 @@ CreateThread(function()
                     WaitTime = 0
                     Nearby = true
                     if Config.UseDrawText then
-                        if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.search')) end
+                        if not HasShownText then
+                            HasShownText = true
+                            lib.showTextUI(Lang:t('text.search'), {position = 'left-center'})
+                        end
                     else
-                        DrawText3D(Config.Houses[House].loot[i].coords, Lang:t('text.search'))
+                        DrawText3D(Lang:t('text.search'), Config.Houses[House].loot[i].coords)
                     end
                     if IsControlJustReleased(0, 38) then
-                        if not QBCore.Functions.IsWearingGloves() then
+                        if not IsWearingGloves() then
                             if Config.FingerDropChance > math.random(0, 100) then TriggerServerEvent('evidence:server:CreateFingerDrop', GetEntityCoords(cache.ped)) end
                         end
                         lib.callback('qb-houserobbery:callback:checkLoot', false, function(CanStart)
@@ -146,12 +141,15 @@ CreateThread(function()
                     WaitTime = 0
                     Nearby = true
                     if Config.UseDrawText then
-                        if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.pickup', { Item = QBCore.Shared.Items[Config.Houses[House].pickups[i].reward]['label'] })) end
+                        if not HasShownText then
+                            HasShownText = true
+                            lib.showTextUI(Lang:t('text.pickup', {Item = QBCore.Shared.Items[Config.Houses[House].pickups[i].reward]['label']}), {position = 'left-center'})
+                        end
                     else
-                        DrawText3D(Config.Houses[House].pickups[i].coords, Lang:t('text.pickup', { Item = QBCore.Shared.Items[Config.Houses[House].pickups[i].reward]['label'] }))
+                        DrawText3D(Lang:t('text.pickup', {Item = QBCore.Shared.Items[Config.Houses[House].pickups[i].reward]['label']}), Config.Houses[House].pickups[i].coords)
                     end
                     if IsControlJustReleased(0, 38) then
-                        if not QBCore.Functions.IsWearingGloves() then
+                        if not IsWearingGloves() then
                             if Config.FingerDropChance > math.random(0, 100) then TriggerServerEvent('evidence:server:CreateFingerDrop', GetEntityCoords(cache.ped)) end
                         end
                         lib.callback('qb-houserobbery:callback:checkPickup', false, function(CanStart)
@@ -192,7 +190,7 @@ CreateThread(function()
 end)
 
 lib.callback.register('qb-houserobbery:callback:startSkillcheck', function(Difficulty)
-    LoadAnimDict('veh@break_in@0h@p_m_one@')
+    lib.requestAnimDict('veh@break_in@0h@p_m_one@')
     TaskPlayAnim(cache.ped, 'veh@break_in@0h@p_m_one@', 'std_force_entry_rds', 3.0, 3.0, -1, 17, 0, false, false, false)
     local Success = lib.skillCheck(Difficulty)
     ClearPedTasks(cache.ped)
