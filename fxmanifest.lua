@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 
-description 'QBX_Houserobbery'
+description 'qbx_houserobbery'
 repository 'https://github.com/Qbox-project/qbx_houserobbery'
 version '1.0.0'
 
@@ -14,11 +14,11 @@ shared_scripts {
 }
 
 server_scripts {
-    'server/*',
+    'server/main.lua',
 }
 
 client_scripts {
-    'client/*'
+    'client/main.lua'
 }
 
 files {
