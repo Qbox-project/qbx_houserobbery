@@ -77,9 +77,11 @@ AddEventHandler('lockpicks:UseLockpick', function(playerSource, isAdvanced)
     if not house then return end
     if house.opened then return end
     if not isAdvanced and not player.Functions.GetItemByName(config.requiredItems[2]) then return end
-    if amount < config.minimumPolice then if config.notEnoughCopsNotify then
-        exports.qbx_core:Notify(playerSource, Lang:t('notify.no_police', { Required = config.minimumPolice }), 'error')
-        return
+    if amount < config.minimumPolice then
+        if config.notEnoughCopsNotify then
+            exports.qbx_core:Notify(playerSource, Lang:t('notify.no_police', { Required = config.minimumPolice }), 'error')
+            return
+        end
     end
 
     local result = lib.callback.await('qbx_houserobbery:callback:checkTime', playerSource)
