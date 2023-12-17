@@ -1,6 +1,2 @@
-# qb-houserobbery
-House Robberies For QB-Core
-
-- [ ] Alarm system
-- [ ] NPCs?
-- [ ] Holding animation bigger items
+# qbx_houserobbery
+House Robberies For Qbox

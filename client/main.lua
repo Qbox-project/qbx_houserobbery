@@ -1,22 +1,22 @@
 local config = require 'config.client'
 local sharedConfig = require 'config.shared'
-
-local House = 1
+local house = 1
+local ITEMS = exports.ox_inventory:Items()
 
 CreateThread(function()
-    local HasShownText
+    local hasShownText
     while true do
-        local PlayerCoords = GetEntityCoords(cache.ped)
-        local WaitTime = 800
-        local Nearby = false
+        local playerCoords = GetEntityCoords(cache.ped)
+        local waitTime = 800
+        local nearby = false
         for i = 1, #sharedConfig.houses do
-            if #(PlayerCoords - sharedConfig.houses[i].coords) <= 1.4 and sharedConfig.houses[i].opened then
-                WaitTime = 0
-                Nearby = true
-                House = i
+            if #(playerCoords - sharedConfig.houses[i].coords) <= 1.4 and sharedConfig.houses[i].opened then
+                waitTime = 0
+                nearby = true
+                house = i
                 if config.useDrawText then
-                    if not HasShownText then
-                        HasShownText = true
+                    if not hasShownText then
+                        hasShownText = true
                         lib.showTextUI(Lang:t('text.enter_house'), {position = 'left-center'})
                     end
                 else
@@ -25,15 +25,15 @@ CreateThread(function()
                 if IsControlJustReleased(0, 38) then
                     lib.requestAnimDict('anim@heists@keycard@')
                     TaskPlayAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
-                    TriggerServerEvent('qb-houserobbery:server:enterHouse', i)
+                    TriggerServerEvent('qbx_houserobbery:server:enterHouse', i)
                     RemoveAnimDict('anim@heists@keycard@')
                 end
-            elseif #(PlayerCoords - sharedConfig.houses[i].coords) <= 1.6 and not sharedConfig.houses[i].opened then
-                WaitTime = 0
-                Nearby = true
+            elseif #(playerCoords - sharedConfig.houses[i].coords) <= 1.6 and not sharedConfig.houses[i].opened then
+                waitTime = 0
+                nearby = true
                 if config.useDrawText then
-                    if not HasShownText then
-                        HasShownText = true
+                    if not hasShownText then
+                        hasShownText = true
                         lib.showTextUI(Lang:t('text.enter_requirements'), {position = 'left-center'})
                     end
                 else
@@ -41,68 +41,68 @@ CreateThread(function()
                 end
             end
         end
-        if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
-        Wait(WaitTime)
+        if not nearby and hasShownText then hasShownText = false exports['qbx-core']:HideText() end
+        Wait(waitTime)
     end
 end)
 
 CreateThread(function()
-    local HasShownText
+    local hasShownText
     while true do
-        local PlayerCoords = GetEntityCoords(cache.ped)
-        local WaitTime = 800
-        local Nearby = false
+        local playerCoords = GetEntityCoords(cache.ped)
+        local waitTime = 800
+        local nearby = false
         for i = 1, #sharedConfig.interiors do
-            local Exit = vector3(sharedConfig.interiors[i].exit.x, sharedConfig.interiors[i].exit.y, sharedConfig.interiors[i].exit.z)
-            if #(PlayerCoords - Exit) <= 1.4 then
-                WaitTime = 0
-                Nearby = true
+            local exit = vec3(sharedConfig.interiors[i].exit.x, sharedConfig.interiors[i].exit.y, sharedConfig.interiors[i].exit.z)
+            if #(playerCoords - exit) <= 1.4 then
+                waitTime = 0
+                nearby = true
                 if config.useDrawText then
-                    if not HasShownText then
-                        HasShownText = true
+                    if not hasShownText then
+                        hasShownText = true
                         lib.showTextUI(Lang:t('text.leave_house'), {position = 'left-center'})
                     end
                 else
-                    DrawText3D(Lang:t('text.leave_house'), Exit)
+                    DrawText3D(Lang:t('text.leave_house'), exit)
                 end
                 if IsControlJustReleased(0, 38) then
                     lib.requestAnimDict('anim@heists@keycard@')
                     TaskPlayAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
-                    TriggerServerEvent('qb-houserobbery:server:leaveHouse')
+                    TriggerServerEvent('qbx_houserobbery:server:leaveHouse')
                     RemoveAnimDict('anim@heists@keycard@')
                 end
             end
         end
-        if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
-        Wait(WaitTime)
+        if not nearby and hasShownText then hasShownText = false exports['qbx-core']:HideText() end
+        Wait(waitTime)
     end
 end)
 
 CreateThread(function()
-    local HasShownText
+    local hasShownText
     while true do
-        local PlayerCoords = GetEntityCoords(cache.ped)
-        local WaitTime = 800
-        local Nearby = false
-        if sharedConfig.houses[House].opened and sharedConfig.houses[House].loot[1] then
-            for i = 1, #sharedConfig.houses[House].loot do
-                if #(PlayerCoords - sharedConfig.houses[House].loot[i].coords) < 0.8 and not sharedConfig.houses[House].loot[i].isOpened then
-                    WaitTime = 0
-                    Nearby = true
+        local playerCoords = GetEntityCoords(cache.ped)
+        local waitTime = 800
+        local nearby = false
+        if sharedConfig.houses[house].opened and sharedConfig.houses[house].loot[1] then
+            for i = 1, #sharedConfig.houses[house].loot do
+                if #(playerCoords - sharedConfig.houses[house].loot[i].coords) < 0.8 and not sharedConfig.houses[house].loot[i].isOpened then
+                    waitTime = 0
+                    nearby = true
                     if config.useDrawText then
-                        if not HasShownText then
-                            HasShownText = true
+                        if not hasShownText then
+                            hasShownText = true
                             lib.showTextUI(Lang:t('text.search'), {position = 'left-center'})
                         end
                     else
-                        DrawText3D(Lang:t('text.search'), sharedConfig.houses[House].loot[i].coords)
+                        DrawText3D(Lang:t('text.search'), sharedConfig.houses[house].loot[i].coords)
                     end
                     if IsControlJustReleased(0, 38) then
                         if not IsWearingGloves() then
                             if config.fingerDropChance > math.random(0, 100) then TriggerServerEvent('evidence:server:CreateFingerDrop', GetEntityCoords(cache.ped)) end
                         end
-                        lib.callback('qb-houserobbery:callback:checkLoot', false, function(CanStart)
-                            if not CanStart then return end
+                        lib.callback('qbx_houserobbery:callback:checkLoot', false, function(canStart)
+                            if not canStart then return end
                             if lib.progressCircle({
                                 duration = math.random(4000, 8000),
                                 position = 'bottom',
@@ -118,45 +118,45 @@ CreateThread(function()
                                     blendIn = 1.0
                                 },
                             }) then
-                                TriggerServerEvent('qb-houserobbery:server:lootFinished', House, i)
+                                TriggerServerEvent('qbx_houserobbery:server:lootFinished', house, i)
                             else
-                                TriggerServerEvent('qb-houserobbery:server:lootCancelled', House, i)
+                                TriggerServerEvent('qbx_houserobbery:server:lootCancelled', house, i)
                             end
-                        end, House, i)
+                        end, house, i)
                     end
                 end
             end
         end
-        if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
-        Wait(WaitTime)
+        if not nearby and hasShownText then hasShownText = false exports['qbx-core']:HideText() end
+        Wait(waitTime)
     end
 end)
 
 CreateThread(function()
-    local HasShownText
+    local hasShownText
     while true do
-        local PlayerCoords = GetEntityCoords(cache.ped)
-        local WaitTime = 800
-        local Nearby = false
-        if sharedConfig.houses[House].opened and sharedConfig.houses[House].pickups[1] then
-            for i = 1, #sharedConfig.houses[House].pickups do
-                if #(PlayerCoords - sharedConfig.houses[House].pickups[i].coords) < 0.8 and not sharedConfig.houses[House].pickups[i].isOpened then
-                    WaitTime = 0
-                    Nearby = true
+        local playerCoords = GetEntityCoords(cache.ped)
+        local waitTime = 800
+        local nearby = false
+        if sharedConfig.houses[house].opened and sharedConfig.houses[house].pickups[1] then
+            for i = 1, #sharedConfig.houses[house].pickups do
+                if #(playerCoords - sharedConfig.houses[house].pickups[i].coords) < 0.8 and not sharedConfig.houses[house].pickups[i].isOpened then
+                    waitTime = 0
+                    nearby = true
                     if config.useDrawText then
-                        if not HasShownText then
-                            HasShownText = true
-                            lib.showTextUI(Lang:t('text.pickup', {Item = QBCore.Shared.Items[sharedConfig.houses[House].pickups[i].reward]['label']}), {position = 'left-center'})
+                        if not hasShownText then
+                            hasShownText = true
+                            lib.showTextUI(Lang:t('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), {position = 'left-center'})
                         end
                     else
-                        DrawText3D(Lang:t('text.pickup', {Item = QBCore.Shared.Items[sharedConfig.houses[House].pickups[i].reward]['label']}), sharedConfig.houses[House].pickups[i].coords)
+                        DrawText3D(Lang:t('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), sharedConfig.houses[house].pickups[i].coords)
                     end
                     if IsControlJustReleased(0, 38) then
                         if not IsWearingGloves() then
                             if config.fingerDropChance > math.random(0, 100) then TriggerServerEvent('evidence:server:CreateFingerDrop', GetEntityCoords(cache.ped)) end
                         end
-                        lib.callback('qb-houserobbery:callback:checkPickup', false, function(CanStart)
-                            if not CanStart then return end
+                        lib.callback('qbx_houserobbery:callback:checkPickup', false, function(canStart)
+                            if not canStart then return end
                             if lib.progressCircle({
                                 duration = math.random(4000, 8000),
                                 position = 'bottom',
@@ -172,14 +172,14 @@ CreateThread(function()
                                     blendIn = 1.0
                                 },
                             }) then
-                                TriggerServerEvent('qb-houserobbery:server:pickupFinished', House, i)
+                                TriggerServerEvent('qbx_houserobbery:server:pickupFinished', house, i)
                             else
-                                TriggerServerEvent('qb-houserobbery:server:pickupCancelled', House, i)
+                                TriggerServerEvent('qbx_houserobbery:server:pickupCancelled', house, i)
                             end
-                        end, House, i)
+                        end, house, i)
                     end
-                elseif #(PlayerCoords - sharedConfig.houses[House].pickups[i].coords) < 30.0 and sharedConfig.houses[House].pickups[i].isOpened then
-                    local Pickup = sharedConfig.houses[House].pickups[i]
+                elseif #(playerCoords - sharedConfig.houses[house].pickups[i].coords) < 30.0 and sharedConfig.houses[house].pickups[i].isOpened then
+                    local Pickup = sharedConfig.houses[house].pickups[i]
                     local Entity = GetClosestObjectOfType(Pickup.coords.x, Pickup.coords.y, Pickup.coords.z, 3.0, joaat(Pickup.prop), false, false, false)
                     if DoesEntityExist(Entity) then
                         SetEntityVisible(Entity, false, false)
@@ -187,33 +187,33 @@ CreateThread(function()
                 end
             end
         end
-        if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
-        Wait(WaitTime)
+        if not nearby and hasShownText then hasShownText = false exports['qbx-core']:HideText() end
+        Wait(waitTime)
     end
 end)
 
-lib.callback.register('qb-houserobbery:callback:startSkillcheck', function(Difficulty)
+lib.callback.register('qbx_houserobbery:callback:startSkillcheck', function(difficulty)
     lib.requestAnimDict('veh@break_in@0h@p_m_one@')
     TaskPlayAnim(cache.ped, 'veh@break_in@0h@p_m_one@', 'std_force_entry_rds', 3.0, 3.0, -1, 17, 0, false, false, false)
-    local Success = lib.skillCheck(Difficulty)
+    local Success = lib.skillCheck(difficulty)
     ClearPedTasks(cache.ped)
     RemoveAnimDict('veh@break_in@0h@p_m_one@')
     return Success
 end)
 
-lib.callback.register('qb-houserobbery:callback:checkTime', function()
-    local CurrentHour = GetClockHours()
-    if CurrentHour >= config.startHours or CurrentHour <= config.endHours then
+lib.callback.register('qbx_houserobbery:callback:checkTime', function()
+    local currentHour = GetClockHours()
+    if currentHour >= config.startHours or currentHour <= config.endHours then
         return true
     else
         return false
     end
 end)
 
-RegisterNetEvent('qb-houserobbery:client:syncconfig', function(Data, Index)
-    if Index then
-        sharedConfig.houses[Index] = Data
+RegisterNetEvent('qbx_houserobbery:client:syncconfig', function(data, index)
+    if index then
+        sharedConfig.houses[index] = data
     else
-        sharedConfig.houses = Data
+        sharedConfig.houses = data
     end
 end)

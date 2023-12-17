@@ -1,56 +1,57 @@
 local config = require 'config.server'
 local sharedConfig = require 'config.shared'
-local StartedLoot = {}
-local StartedPickup = {}
+local startedLoot = {}
+local startedPickup = {}
 
-local function GetClosestHouse(Coords)
-    local ClosestHouseIndex
+local function getClosestHouse(coords)
+    local closestHouseIndex
     for i = 1, #sharedConfig.houses do
-        if #(Coords - sharedConfig.houses[i].coords) <= 3 then
-            if ClosestHouseIndex then
-                if #(Coords - sharedConfig.houses[i].coords) < #(Coords - sharedConfig.houses[ClosestHouseIndex].coords) then
-                    ClosestHouseIndex = i
+        if #(coords - sharedConfig.houses[i].coords) <= 3 then
+            if closestHouseIndex then
+                if #(coords - sharedConfig.houses[i].coords) < #(coords - sharedConfig.houses[closestHouseIndex].coords) then
+                    closestHouseIndex = i
                 end
             else
-                ClosestHouseIndex = i
+                closestHouseIndex = i
             end
         end
     end
-    return ClosestHouseIndex
+    return closestHouseIndex
 end
 
-local function EnterHouse(Source, Coords, Bucket, ClosestHouseIndex)
-    SetResourceKvpInt(exports.qbx_core:GetPlayer(Source).PlayerData.citizenid, ClosestHouseIndex)
-    TriggerClientEvent('qb-interior:client:screenfade', Source)
+local function enterHouse(source, coords, bucket, closestHouseIndex)
+    local player = exports.qbx_core:GetPlayer(source)
+    SetResourceKvpInt(player.PlayerData.citizenid, closestHouseIndex)
+    TriggerClientEvent('qb-interior:client:screenfade', source)
     Wait(200)
-    local Ped = GetPlayerPed(Source)
-    SetEntityCoords(Ped, Coords.x, Coords.y, Coords.z)
-    SetEntityHeading(Ped, Coords.w)
-    SetPlayerRoutingBucket(Source, Bucket)
-    FreezeEntityPosition(Ped, true)
+    local ped = GetPlayerPed(source)
+    SetEntityCoords(ped, coords.x, coords.y, coords.z)
+    SetEntityHeading(ped, coords.w)
+    SetPlayerRoutingBucket(source, bucket)
+    FreezeEntityPosition(ped, true)
     Wait(200)
-    FreezeEntityPosition(Ped, false)
+    FreezeEntityPosition(ped, false)
 end
 
-local function LeaveHouse(Source, Coords)
-    TriggerClientEvent('qb-interior:client:screenfade', Source)
+local function leaveHouse(source, coords)
+    TriggerClientEvent('qb-interior:client:screenfade', source)
     Wait(200)
-    local Ped = GetPlayerPed(Source)
-    SetEntityCoords(Ped, Coords.x, Coords.y, Coords.z)
-    SetPlayerRoutingBucket(Source, 0)
-    FreezeEntityPosition(Ped, true)
+    local ped = GetPlayerPed(source)
+    SetEntityCoords(ped, coords.x, coords.y, coords.z)
+    SetPlayerRoutingBucket(source, 0)
+    FreezeEntityPosition(ped, true)
     Wait(200)
-    FreezeEntityPosition(Ped, false)
+    FreezeEntityPosition(ped, false)
 end
 
-local function ShuffleTables(Index)
-    for i = #sharedConfig.interiors[Index].loot, 2, -1 do
+local function shuffleTables(index)
+    for i = #sharedConfig.interiors[index].loot, 2, -1 do
         local j = math.random(i)
-        sharedConfig.interiors[Index].loot[i], sharedConfig.interiors[Index].loot[j] = sharedConfig.interiors[Index].loot[j], sharedConfig.interiors[Index].loot[i]
+        sharedConfig.interiors[index].loot[i], sharedConfig.interiors[index].loot[j] = sharedConfig.interiors[index].loot[j], sharedConfig.interiors[index].loot[i]
     end
-    for i = #sharedConfig.interiors[Index].pickups, 2, -1 do
+    for i = #sharedConfig.interiors[index].pickups, 2, -1 do
         local j = math.random(i)
-        sharedConfig.interiors[Index].pickups[i], sharedConfig.interiors[Index].pickups[j] = sharedConfig.interiors[Index].pickups[j], sharedConfig.interiors[Index].pickups[i]
+        sharedConfig.interiors[index].pickups[i], sharedConfig.interiors[index].pickups[j] = sharedConfig.interiors[index].pickups[j], sharedConfig.interiors[index].pickups[i]
     end
     for b = 1, #config.rewards do
         for i = #config.rewards[b].items, 2, -1 do
@@ -60,151 +61,156 @@ local function ShuffleTables(Index)
     end
 end
 
-local function PoliceAlert(Text, House)
-    SetTimeout(sharedConfig.interiors[House.interior].callCopsTimeout, function()
-        TriggerEvent('police:server:policeAlert', Text)
+local function policeAlert(text, house)
+    SetTimeout(sharedConfig.interiors[house.interior].callCopsTimeout, function()
+        TriggerEvent('police:server:policeAlert', text)
     end)
 end
 
-AddEventHandler('lockpicks:UseLockpick', function(PlayerSource, IsAdvanced)
-    local Player = exports.qbx_core:GetPlayer(PlayerSource)
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(PlayerSource))
-    local ClosestHouseIndex = GetClosestHouse(PlayerCoords)
-    local House = sharedConfig.houses[ClosestHouseIndex]
-    local Amount = exports.qbx_core:GetDutyCountType('leo')
+AddEventHandler('lockpicks:UseLockpick', function(playerSource, isAdvanced)
+    local player = exports.qbx_core:GetPlayer(playerSource)
+    local playerCoords = GetEntityCoords(GetPlayerPed(playerSource))
+    local closestHouseIndex = getClosestHouse(playerCoords)
+    local house = sharedConfig.houses[closestHouseIndex]
+    local amount = exports.qbx_core:GetDutyCountType('leo')
 
-    if not House then return end
-    if House.opened then return end
-    if not IsAdvanced and not Player.Functions.GetItemByName(config.requiredItems[2]) then return end
-    if Amount < config.minimumHouseRobberyPolice then if config.notEnoughCopsNotify then exports.qbx_core:Notify(PlayerSource, Lang:t('notify.no_police', { Required = config.minimumHouseRobberyPolice }), 'error') end return end
+    if not house then return end
+    if house.opened then return end
+    if not isAdvanced and not player.Functions.GetItemByName(config.requiredItems[2]) then return end
+    if amount < config.minimumPolice then
+        if config.notEnoughCopsNotify then
+            exports.qbx_core:Notify(playerSource, Lang:t('notify.no_police', { Required = config.minimumPolice }), 'error')
+            return
+        end
+    end
 
-    local Result = lib.callback.await('qb-houserobbery:callback:checkTime', PlayerSource)
+    local result = lib.callback.await('qbx_houserobbery:callback:checkTime', playerSource)
 
-    if not Result then return end
+    if not result then return end
 
-    local Skillcheck = lib.callback.await('qb-houserobbery:callback:startSkillcheck', PlayerSource, sharedConfig.interiors[House.interior].skillcheck)
+    local skillcheck = lib.callback.await('qbx_houserobbery:callback:startSkillcheck', playerSource, sharedConfig.interiors[house.interior].skillcheck)
 
-    if Skillcheck then
-        sharedConfig.houses[ClosestHouseIndex].opened = true
-        exports.qbx_core:Notify(PlayerSource, Lang:t('notify.success_skillcheck'), 'success')
-        TriggerClientEvent('qb-houserobbery:client:syncconfig', -1, sharedConfig.houses[ClosestHouseIndex], ClosestHouseIndex)
-        EnterHouse(PlayerSource, sharedConfig.interiors[House.interior].exit, House.routingbucket, ClosestHouseIndex)
-        PoliceAlert(Lang:t('notify.police_alert'), House)
+    if skillcheck then
+        sharedConfig.houses[closestHouseIndex].opened = true
+        exports.qbx_core:Notify(playerSource, Lang:t('notify.success_skillcheck'), 'success')
+        TriggerClientEvent('qbx_houserobbery:client:syncconfig', -1, sharedConfig.houses[closestHouseIndex], closestHouseIndex)
+        enterHouse(playerSource, sharedConfig.interiors[house.interior].exit, house.routingbucket, closestHouseIndex)
+        policeAlert(Lang:t('notify.police_alert'), house)
     else
-        exports.qbx_core:Notify(PlayerSource, Lang:t('notify.fail_skillcheck'), 'error')
+        exports.qbx_core:Notify(playerSource, Lang:t('notify.fail_skillcheck'), 'error')
     end
 end)
 
-RegisterNetEvent('qb-houserobbery:server:enterHouse', function(Index)
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local ClosestHouseIndex = GetClosestHouse(PlayerCoords)
+RegisterNetEvent('qbx_houserobbery:server:enterHouse', function(index)
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
+    local closestHouseIndex = getClosestHouse(playerCoords)
 
-    if ClosestHouseIndex ~= Index then return end
-    if not ClosestHouseIndex then return end
-    if not sharedConfig.houses[Index].opened then return end
+    if closestHouseIndex ~= index then return end
+    if not closestHouseIndex then return end
+    if not sharedConfig.houses[index].opened then return end
 
-    EnterHouse(source, sharedConfig.interiors[sharedConfig.houses[ClosestHouseIndex].interior].exit, sharedConfig.houses[ClosestHouseIndex].routingbucket, ClosestHouseIndex)
+    enterHouse(source, sharedConfig.interiors[sharedConfig.houses[closestHouseIndex].interior].exit, sharedConfig.houses[closestHouseIndex].routingbucket, closestHouseIndex)
 end)
 
-RegisterNetEvent('qb-houserobbery:server:leaveHouse', function()
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local Index = GetResourceKvpInt(exports.qbx_core:GetPlayer(source).PlayerData.citizenid)
-    local Exit = vector3(sharedConfig.interiors[sharedConfig.houses[Index].interior].exit.x, sharedConfig.interiors[sharedConfig.houses[Index].interior].exit.y, sharedConfig.interiors[sharedConfig.houses[Index].interior].exit.z)
+RegisterNetEvent('qbx_houserobbery:server:leaveHouse', function()
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
+    local index = GetResourceKvpInt(exports.qbx_core:GetPlayer(source).PlayerData.citizenid)
+    local exit = vec3(sharedConfig.interiors[sharedConfig.houses[index].interior].exit.x, sharedConfig.interiors[sharedConfig.houses[index].interior].exit.y, sharedConfig.interiors[sharedConfig.houses[index].interior].exit.z)
 
-    if #(PlayerCoords - Exit) > 3 then return end
+    if #(playerCoords - exit) > 3 then return end
 
-    LeaveHouse(source, sharedConfig.houses[Index].coords)
+    leaveHouse(source, sharedConfig.houses[index].coords)
 end)
 
-lib.callback.register('qb-houserobbery:callback:checkLoot', function(source, HouseIndex, LootIndex)
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local Loot = sharedConfig.houses[HouseIndex].loot[LootIndex]
+lib.callback.register('qbx_houserobbery:callback:checkLoot', function(source, houseIndex, lootIndex)
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
+    local loot = sharedConfig.houses[houseIndex].loot[lootIndex]
 
-    if #(PlayerCoords - Loot.coords) > 3 then return end
-    if Loot.isBusy then exports.qbx_core:Notify(source, Lang:t('notify.busy')) return end
-    if Loot.isOpened then return end
-    if not sharedConfig.houses[HouseIndex].opened then return end
+    if #(playerCoords - loot.coords) > 3 then return end
+    if loot.isBusy then exports.qbx_core:Notify(source, Lang:t('notify.busy')) return end
+    if loot.isOpened then return end
+    if not sharedConfig.houses[houseIndex].opened then return end
 
-    StartedLoot[source] = true
-    sharedConfig.houses[HouseIndex].loot[LootIndex].isBusy = true
+    startedLoot[source] = true
+    sharedConfig.houses[houseIndex].loot[lootIndex].isBusy = true
     return true
 end)
 
-RegisterNetEvent('qb-houserobbery:server:lootFinished', function(HouseIndex, LootIndex)
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local Player = exports.qbx_core:GetPlayer(source)
-    local Loot = sharedConfig.houses[HouseIndex].loot[LootIndex]
-    local Reward = config.rewards[Loot.pool[math.random(#Loot.pool)]]
+RegisterNetEvent('qbx_houserobbery:server:lootFinished', function(houseIndex, lootIndex)
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
+    local player = exports.qbx_core:GetPlayer(source)
+    local loot = sharedConfig.houses[houseIndex].loot[lootIndex]
+    local reward = config.rewards[loot.pool[math.random(#loot.pool)]]
 
-    if #(PlayerCoords - Loot.coords) > 3 then return end
-    if not StartedLoot[source] then return end
-    if not Loot.isBusy then return end
-    if Loot.isOpened then return end
+    if #(playerCoords - loot.coords) > 3 then return end
+    if not startedLoot[source] then return end
+    if not loot.isBusy then return end
+    if loot.isOpened then return end
 
-    for i = 1, math.random(Reward.togive.min, Reward.togive.max) do
-        Player.Functions.AddItem(Reward.items[i], math.random(Reward.toget.min, Reward.toget.max))
+    for i = 1, math.random(reward.togive.min, reward.togive.max) do
+        player.Functions.AddItem(reward.items[i], math.random(reward.toget.min, reward.toget.max))
     end
-    StartedLoot[source] = false
-    sharedConfig.houses[HouseIndex].loot[LootIndex].isBusy = false
-    sharedConfig.houses[HouseIndex].loot[LootIndex].isOpened = true
-    TriggerClientEvent('qb-houserobbery:client:syncconfig', -1, sharedConfig.houses[HouseIndex], HouseIndex)
+    startedLoot[source] = false
+    sharedConfig.houses[houseIndex].loot[lootIndex].isBusy = false
+    sharedConfig.houses[houseIndex].loot[lootIndex].isOpened = true
+    TriggerClientEvent('qbx_houserobbery:client:syncconfig', -1, sharedConfig.houses[houseIndex], houseIndex)
 end)
 
-RegisterNetEvent('qb-houserobbery:server:lootCancelled', function(HouseIndex, LootIndex)
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
+RegisterNetEvent('qbx_houserobbery:server:lootCancelled', function(houseIndex, lootIndex)
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
 
-    if #(PlayerCoords - sharedConfig.houses[HouseIndex].loot[LootIndex].coords) > 3 then return end
-    if not StartedLoot[source] then return end
+    if #(playerCoords - sharedConfig.houses[houseIndex].loot[lootIndex].coords) > 3 then return end
+    if not startedLoot[source] then return end
 
-    StartedLoot[source] = false
-    sharedConfig.houses[HouseIndex].loot[LootIndex].isBusy = false
+    startedLoot[source] = false
+    sharedConfig.houses[houseIndex].loot[lootIndex].isBusy = false
 end)
 
-lib.callback.register('qb-houserobbery:callback:checkPickup', function(source, HouseIndex, PickupIndex)
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local Pickup = sharedConfig.houses[HouseIndex].pickups[PickupIndex]
+lib.callback.register('qbx_houserobbery:callback:checkPickup', function(source, houseIndex, pickupIndex)
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
+    local pickup = sharedConfig.houses[houseIndex].pickups[pickupIndex]
 
-    if #(PlayerCoords - Pickup.coords) > 3 then return end
-    if Pickup.isBusy then exports.qbx_core:Notify(source, Lang:t('notify.busy')) return end
-    if Pickup.isOpened then return end
+    if #(playerCoords - pickup.coords) > 3 then return end
+    if pickup.isBusy then exports.qbx_core:Notify(source, Lang:t('notify.busy')) return end
+    if pickup.isOpened then return end
 
-    StartedPickup[source] = true
-    sharedConfig.houses[HouseIndex].pickups[PickupIndex].isBusy = true
+    startedPickup[source] = true
+    sharedConfig.houses[houseIndex].pickups[pickupIndex].isBusy = true
     return true
 end)
 
-RegisterNetEvent('qb-houserobbery:server:pickupFinished', function(HouseIndex, PickupIndex)
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local Player = exports.qbx_core:GetPlayer(source)
-    local Pickup = sharedConfig.houses[HouseIndex].pickups[PickupIndex]
+RegisterNetEvent('qbx_houserobbery:server:pickupFinished', function(houseIndex, pickupIndex)
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
+    local player = exports.qbx_core:GetPlayer(source)
+    local pickup = sharedConfig.houses[houseIndex].pickups[pickupIndex]
 
-    if #(PlayerCoords - Pickup.coords) > 3 then return end
-    if not StartedPickup[source] then return end
-    if not Pickup.isBusy then return end
-    if Pickup.isOpened then return end
+    if #(playerCoords - pickup.coords) > 3 then return end
+    if not startedPickup[source] then return end
+    if not pickup.isBusy then return end
+    if pickup.isOpened then return end
 
-    Player.Functions.AddItem(Pickup.reward, 1)
-    StartedPickup[source] = false
-    sharedConfig.houses[HouseIndex].pickups[PickupIndex].isBusy = false
-    sharedConfig.houses[HouseIndex].pickups[PickupIndex].isOpened = true
-    TriggerClientEvent('qb-houserobbery:client:syncconfig', -1, sharedConfig.houses[HouseIndex], HouseIndex)
+    player.Functions.AddItem(pickup.reward, 1)
+    startedPickup[source] = false
+    sharedConfig.houses[houseIndex].pickups[pickupIndex].isBusy = false
+    sharedConfig.houses[houseIndex].pickups[pickupIndex].isOpened = true
+    TriggerClientEvent('qbx_houserobbery:client:syncconfig', -1, sharedConfig.houses[houseIndex], houseIndex)
 end)
 
-RegisterNetEvent('qb-houserobbery:server:pickupCancelled', function(HouseIndex, PickupIndex)
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
+RegisterNetEvent('qbx_houserobbery:server:pickupCancelled', function(houseIndex, pickupIndex)
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
 
-    if #(PlayerCoords - sharedConfig.houses[HouseIndex].pickups[PickupIndex].coords) > 3 then return end
-    if not StartedPickup[source] then return end
+    if #(playerCoords - sharedConfig.houses[houseIndex].pickups[pickupIndex].coords) > 3 then return end
+    if not startedPickup[source] then return end
 
-    StartedPickup[source] = false
-    sharedConfig.houses[HouseIndex].pickups[PickupIndex].isBusy = false
+    startedPickup[source] = false
+    sharedConfig.houses[houseIndex].pickups[pickupIndex].isBusy = false
 end)
 
 CreateThread(function()
     for i = 1, #sharedConfig.houses do
-        ShuffleTables(sharedConfig.houses[i].interior)
-        local RandomAmountOfLoot = math.random(sharedConfig.houses[i].setup.loot.min, sharedConfig.houses[i].setup.loot.max)
-        for b = 1, RandomAmountOfLoot do
+        shuffleTables(sharedConfig.houses[i].interior)
+        local randomAmountOfLoot = math.random(sharedConfig.houses[i].setup.loot.min, sharedConfig.houses[i].setup.loot.max)
+        for b = 1, randomAmountOfLoot do
             sharedConfig.houses[i].loot[b] = {
                 coords = sharedConfig.interiors[sharedConfig.houses[i].interior].loot[b].coords,
                 pool = sharedConfig.interiors[sharedConfig.houses[i].interior].loot[b].pool,
@@ -212,8 +218,8 @@ CreateThread(function()
                 isOpened = false
             }
         end
-        local RandomAmountOfPickups = math.random(sharedConfig.houses[i].setup.pickups.min, sharedConfig.houses[i].setup.pickups.max)
-        for b = 1, RandomAmountOfPickups do
+        local randomAmountOfPickups = math.random(sharedConfig.houses[i].setup.pickups.min, sharedConfig.houses[i].setup.pickups.max)
+        for b = 1, randomAmountOfPickups do
             sharedConfig.houses[i].pickups[b] = {
                 coords = sharedConfig.interiors[sharedConfig.houses[i].interior].pickups[b].coords,
                 prop = sharedConfig.interiors[sharedConfig.houses[i].interior].pickups[b].model,
@@ -225,9 +231,9 @@ CreateThread(function()
         end
     end
     Wait(50)
-    TriggerClientEvent('qb-houserobbery:client:syncconfig', -1, sharedConfig.houses)
+    TriggerClientEvent('qbx_houserobbery:client:syncconfig', -1, sharedConfig.houses)
 end)
 
 AddEventHandler('playerJoining', function(source)
-    TriggerClientEvent('qb-houserobbery:client:syncconfig', source, sharedConfig.houses)
+    TriggerClientEvent('qbx_houserobbery:client:syncconfig', source, sharedConfig.houses)
 end)
