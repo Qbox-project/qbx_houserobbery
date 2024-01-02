@@ -3,6 +3,15 @@ local sharedConfig = require 'config.shared'
 local house = 1
 local ITEMS = exports.ox_inventory:Items()
 
+local function dropFingerprint()
+    if IsWearingGloves() then return end
+
+    local coords = GetEntityCoords(cache.ped)
+    if config.fingerprintChance > math.random(0, 100) then
+        TriggerServerEvent('evidence:server:CreateFingerDrop', coords)
+    end
+end
+
 CreateThread(function()
     local hasShownText
     while true do
@@ -98,31 +107,28 @@ CreateThread(function()
                         DrawText3D(Lang:t('text.search'), sharedConfig.houses[house].loot[i].coords)
                     end
                     if IsControlJustReleased(0, 38) then
-                        if not IsWearingGloves() then
-                            if config.fingerDropChance > math.random(0, 100) then TriggerServerEvent('evidence:server:CreateFingerDrop', GetEntityCoords(cache.ped)) end
+                        dropFingerprint()
+                        local canStart = lib.callback.await('qbx_houserobbery:callback:checkLoot', false, house, i)
+                        if not canStart then return end
+                        if lib.progressCircle({
+                            duration = math.random(4000, 8000),
+                            position = 'bottom',
+                            canCancel = true,
+                            disable = {
+                                move = true,
+                                combat = true,
+                            },
+                            anim = {
+                                dict = 'missexile3',
+                                clip = 'ex03_dingy_search_case_base_michael',
+                                flag = 1,
+                                blendIn = 1.0
+                            },
+                        }) then
+                            TriggerServerEvent('qbx_houserobbery:server:lootFinished', house, i)
+                        else
+                            TriggerServerEvent('qbx_houserobbery:server:lootCancelled', house, i)
                         end
-                        lib.callback('qbx_houserobbery:callback:checkLoot', false, function(canStart)
-                            if not canStart then return end
-                            if lib.progressCircle({
-                                duration = math.random(4000, 8000),
-                                position = 'bottom',
-                                canCancel = true,
-                                disable = {
-                                    move = true,
-                                    combat = true,
-                                },
-                                anim = {
-                                    dict = 'missexile3',
-                                    clip = 'ex03_dingy_search_case_base_michael',
-                                    flag = 1,
-                                    blendIn = 1.0
-                                },
-                            }) then
-                                TriggerServerEvent('qbx_houserobbery:server:lootFinished', house, i)
-                            else
-                                TriggerServerEvent('qbx_houserobbery:server:lootCancelled', house, i)
-                            end
-                        end, house, i)
                     end
                 end
             end
@@ -152,31 +158,28 @@ CreateThread(function()
                         DrawText3D(Lang:t('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), sharedConfig.houses[house].pickups[i].coords)
                     end
                     if IsControlJustReleased(0, 38) then
-                        if not IsWearingGloves() then
-                            if config.fingerDropChance > math.random(0, 100) then TriggerServerEvent('evidence:server:CreateFingerDrop', GetEntityCoords(cache.ped)) end
+                        dropFingerprint()
+                        local canStart = lib.callback('qbx_houserobbery:callback:checkPickup', false, house, i)
+                        if not canStart then return end
+                        if lib.progressCircle({
+                            duration = math.random(4000, 8000),
+                            position = 'bottom',
+                            canCancel = true,
+                            disable = {
+                                move = true,
+                                combat = true,
+                            },
+                            anim = {
+                                dict = 'missexile3',
+                                clip = 'ex03_dingy_search_case_base_michael',
+                                flag = 1,
+                                blendIn = 1.0
+                            },
+                        }) then
+                            TriggerServerEvent('qbx_houserobbery:server:pickupFinished', house, i)
+                        else
+                            TriggerServerEvent('qbx_houserobbery:server:pickupCancelled', house, i)
                         end
-                        lib.callback('qbx_houserobbery:callback:checkPickup', false, function(canStart)
-                            if not canStart then return end
-                            if lib.progressCircle({
-                                duration = math.random(4000, 8000),
-                                position = 'bottom',
-                                canCancel = true,
-                                disable = {
-                                    move = true,
-                                    combat = true,
-                                },
-                                anim = {
-                                    dict = 'missexile3',
-                                    clip = 'ex03_dingy_search_case_base_michael',
-                                    flag = 1,
-                                    blendIn = 1.0
-                                },
-                            }) then
-                                TriggerServerEvent('qbx_houserobbery:server:pickupFinished', house, i)
-                            else
-                                TriggerServerEvent('qbx_houserobbery:server:pickupCancelled', house, i)
-                            end
-                        end, house, i)
                     end
                 elseif #(playerCoords - sharedConfig.houses[house].pickups[i].coords) < 30.0 and sharedConfig.houses[house].pickups[i].isOpened then
                     local Pickup = sharedConfig.houses[house].pickups[i]
