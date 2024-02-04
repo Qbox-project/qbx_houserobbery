@@ -18,7 +18,6 @@ CreateThread(function()
         local playerCoords = GetEntityCoords(cache.ped)
         local waitTime = 800
         local nearby = false
-        local house = nil
         for i = 1, #sharedConfig.houses do
             local distance = #(playerCoords - sharedConfig.houses[i].coords)
             if distance <= 1.4 and sharedConfig.houses[i].opened then
