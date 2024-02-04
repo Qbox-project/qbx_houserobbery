@@ -1,0 +1,16 @@
+{
+    "text": {
+        "enter_house": "[E] - Vstoupit do domu",
+        "enter_requirements": "Lomítko | Sada šroubováků",
+        "leave_house": "[E] - Opustit dům",
+        "search": "[E] - Prohledat okolí",
+        "pickup": "[E] - Sebrat %s"
+    },
+    "notify": {
+        "no_police": "Nedostatek Policistů (%s Požadováno)",
+        "fail_skillcheck": "Selhalo Skillcheck",
+        "success_skillcheck": "Úspěšný Skillcheck",
+        "busy": "Někdo už na tom pracuje",
+        "police_alert": "Podezřelá aktivita poblíž vlastněné nemovitosti"
+    }
+}

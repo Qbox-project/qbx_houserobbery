@@ -1,0 +1,16 @@
+{
+    "text": {
+        "enter_house": "[E] - Enter House",
+        "enter_requirements": "Lockpick | Screwdriver set",
+        "leave_house": "[E] - Leave House",
+        "search": "[E] - Search Around",
+        "pickup": "[E] - Grab %s"
+    },
+    "notify": {
+        "no_police": "Not Enough Police (%s Required)",
+        "fail_skillcheck": "Failed Skillcheck",
+        "success_skillcheck": "Successful Skillcheck",
+        "busy": "Someone is already on it",
+        "police_alert": "Suspicious activity near owned property"
+    }
+}
