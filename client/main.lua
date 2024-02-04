@@ -13,7 +13,7 @@ local function dropFingerprint()
 end
 
 CreateThread(function()
-    local hasShownText = false
+    local hasShownText
     while true do
         local playerCoords = GetEntityCoords(cache.ped)
         local waitTime = 800
