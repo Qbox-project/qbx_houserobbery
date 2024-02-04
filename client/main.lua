@@ -13,11 +13,12 @@ local function dropFingerprint()
 end
 
 CreateThread(function()
-    local hasShownText
+    local hasShownText = false
     while true do
         local playerCoords = GetEntityCoords(cache.ped)
         local waitTime = 800
         local nearby = false
+        local house = nil
         for i = 1, #sharedConfig.houses do
             local distance = #(playerCoords - sharedConfig.houses[i].coords)
             if distance <= 1.4 and sharedConfig.houses[i].opened then
@@ -27,29 +28,30 @@ CreateThread(function()
                 if config.useDrawText and not hasShownText then
                     hasShownText = true
                     lib.showTextUI(locale('text.enter_house'), {position = 'left-center'})
-            else
-                qbx.drawText3d({
-                    text = locale('text.enter_house'),
-                    coords = sharedConfig.houses[i].coords,
-                })
-            end
-            if IsControlJustReleased(0, 38) then
-                lib.requestAnimDict('anim@heists@keycard@')
-                TaskPlayAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
-                TriggerServerEvent('qbx_houserobbery:server:enterHouse', i)
-                RemoveAnimDict('anim@heists@keycard@')
-            end
-            if distance <= 1.6 and not sharedConfig.houses[i].opened then
+                else
+                    qbx.drawText3d({
+                        text = locale('text.enter_house'),
+                        coords = sharedConfig.houses[i].coords,
+                    })
+                end
+                if IsControlJustReleased(0, 38) then
+                    lib.requestAnimDict('anim@heists@keycard@')
+                    TaskPlayAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
+                    TriggerServerEvent('qbx_houserobbery:server:enterHouse', i)
+                    RemoveAnimDict('anim@heists@keycard@')
+                end
+            elseif distance <= 1.6 and not sharedConfig.houses[i].opened then
                 waitTime = 0
                 nearby = true
                 if config.useDrawText and not hasShownText then
                     hasShownText = true
                     lib.showTextUI(locale('text.enter_requirements'), {position = 'left-center'})
-            else
-                qbx.drawText3d({
-                    text = locale('text.enter_requirements'),
-                    coords = sharedConfig.houses[i].coords,
-                })
+                else
+                    qbx.drawText3d({
+                        text = locale('text.enter_requirements'),
+                        coords = sharedConfig.houses[i].coords,
+                    })
+                end
             end
         end
         if not nearby and hasShownText then
