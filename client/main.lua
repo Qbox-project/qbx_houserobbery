@@ -28,6 +28,7 @@ CreateThread(function()
                    hasShownText = true
                    lib.showTextUI(locale('text.enter_house'), {position = 'left-center'})
               end
+            end
                 else
                     qbx.drawText3d({
                         text = locale('text.enter_house'),
