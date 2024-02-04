@@ -4,7 +4,7 @@ local house = 1
 local ITEMS = exports.ox_inventory:Items()
 
 local function dropFingerprint()
-    if IsWearingGloves() then return end
+    if qbx.IsWearingGloves() then return end
 
     local coords = GetEntityCoords(cache.ped)
     if config.fingerprintChance > math.random(0, 100) then
@@ -29,7 +29,7 @@ CreateThread(function()
                         lib.showTextUI(Lang:t('text.enter_house'), {position = 'left-center'})
                     end
                 else
-                    DrawText3D(Lang:t('text.enter_house'), sharedConfig.houses[i].coords)
+                    qbx.DrawText3D(Lang:t('text.enter_house'), sharedConfig.houses[i].coords)
                 end
                 if IsControlJustReleased(0, 38) then
                     lib.requestAnimDict('anim@heists@keycard@')
@@ -46,7 +46,7 @@ CreateThread(function()
                         lib.showTextUI(Lang:t('text.enter_requirements'), {position = 'left-center'})
                     end
                 else
-                    DrawText3D(Lang:t('text.enter_requirements'), sharedConfig.houses[i].coords)
+                    qbx.DrawText3D(Lang:t('text.enter_requirements'), sharedConfig.houses[i].coords)
                 end
             end
         end
@@ -72,7 +72,7 @@ CreateThread(function()
                         lib.showTextUI(Lang:t('text.leave_house'), {position = 'left-center'})
                     end
                 else
-                    DrawText3D(Lang:t('text.leave_house'), exit)
+                    qbx.DrawText3D(Lang:t('text.leave_house'), exit)
                 end
                 if IsControlJustReleased(0, 38) then
                     lib.requestAnimDict('anim@heists@keycard@')
@@ -104,7 +104,7 @@ CreateThread(function()
                             lib.showTextUI(Lang:t('text.search'), {position = 'left-center'})
                         end
                     else
-                        DrawText3D(Lang:t('text.search'), sharedConfig.houses[house].loot[i].coords)
+                        qbx.DrawText3D(Lang:t('text.search'), sharedConfig.houses[house].loot[i].coords)
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
@@ -155,7 +155,7 @@ CreateThread(function()
                             lib.showTextUI(Lang:t('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), {position = 'left-center'})
                         end
                     else
-                        DrawText3D(Lang:t('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), sharedConfig.houses[house].pickups[i].coords)
+                        qbx.DrawText3D(Lang:t('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), sharedConfig.houses[house].pickups[i].coords)
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
