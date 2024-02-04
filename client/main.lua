@@ -178,7 +178,7 @@ CreateThread(function()
                         end
                     else
                     qbx.drawText3d({
-                            text = locale('text.pickup', { Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label'] }),
+                            text = locale('text.pickup', ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']),
                             coords = sharedConfig.houses[house].pickups[i].coords
                     })
                     end
