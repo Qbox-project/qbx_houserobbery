@@ -168,27 +168,16 @@ end)
 
 lib.callback.register('qbx_houserobbery:callback:checkPickup', function(source, houseIndex, pickupIndex)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
-    if not sharedConfig or not sharedConfig.houses then
-        return
-    end
     local house = sharedConfig.houses[houseIndex]
-    if not house or not house.pickups then
-        return
-    end
+    if not house or not house.pickups then return end
+    
     local pickup = house.pickups[pickupIndex]
-    if not pickup then
-        return
-    end
-    if #(playerCoords - pickup.coords) > 3 then
-        return
-    end
+    if not pickup or #(playerCoords - pickup.coords) > 3 then return end
     if pickup.isBusy then
         exports.qbx_core:Notify(source, locale('notify.busy'))
         return
     end
-    if pickup.isOpened then
-        return
-    end
+    if pickup.isOpened then return end
     startedPickup[source] = true
     sharedConfig.houses[houseIndex].pickups[pickupIndex].isBusy = true
     return true
