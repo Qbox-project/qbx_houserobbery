@@ -4,7 +4,7 @@
         "enter_requirements": "Lomítko | Sada šroubováků",
         "leave_house": "~g~E~w~ - Opustit dům",
         "search": "~g~E~w~ - Prohledat okolí",
-        "pickup": "~g~E~w~ - Sebrat %{Item}"
+        "pickup": "~g~E~w~ - Sebrat %s"
     },
     "notify": {
         "no_police": "Nedostatek Policistů ('%{Required}' Požadováno)",
