@@ -60,7 +60,7 @@ CreateThread(function()
             end
         end
         if not nearby and hasShownText then
-            hasShownText = false 
+            hasShownText = false
             lib.hideTextUI()
         end
         Wait(waitTime)
@@ -122,10 +122,10 @@ CreateThread(function()
                             lib.showTextUI(locale('text.search'), {position = 'left-center'})
                         end
                     else
-                        qbx.drawText3d({
-                            text = locale('text.search'),
-                            coords = sharedConfig.houses[house].loot[i].coords,
-                        })
+                    qbx.drawText3d({
+                            text = locale('text.pickup', { Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label'] }),
+                            coords = sharedConfig.houses[house].pickups[i].coords
+                    })
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
@@ -179,7 +179,10 @@ CreateThread(function()
                             lib.showTextUI(locale('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), {position = 'left-center'})
                         end
                     else
-                        qbx.DrawText3D(locale('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), sharedConfig.houses[house].pickups[i].coords)
+                    qbx.drawText3d({
+                            text = locale('text.pickup', { Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label'] }),
+                            coords = sharedConfig.houses[house].pickups[i].coords
+                    })
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
