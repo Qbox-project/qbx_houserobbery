@@ -175,7 +175,7 @@ CreateThread(function()
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
-                        local canStart = lib.callback('qbx_houserobbery:callback:checkPickup', false, house, i)
+                        local canStart = lib.callback.await('qbx_houserobbery:callback:checkPickup', false, house, i)
                         if not canStart then return end
                         if lib.progressCircle({
                             duration = math.random(4000, 8000),
@@ -196,7 +196,7 @@ CreateThread(function()
                         else
                             TriggerServerEvent('qbx_houserobbery:server:pickupCancelled', house, i)
                         end
-                    end
+                    end                    
                 elseif #(playerCoords - sharedConfig.houses[house].pickups[i].coords) < 30.0 and sharedConfig.houses[house].pickups[i].isOpened then
                     local Pickup = sharedConfig.houses[house].pickups[i]
                     local Entity = GetClosestObjectOfType(Pickup.coords.x, Pickup.coords.y, Pickup.coords.z, 3.0, joaat(Pickup.prop), false, false, false)
