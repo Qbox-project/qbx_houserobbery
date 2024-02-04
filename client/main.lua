@@ -24,14 +24,14 @@ CreateThread(function()
                 waitTime = 0
                 nearby = true
                 house = i
-                if config.useDrawText and not hasShownText then
-                    hasShownText = true
-                    lib.showTextUI(locale('text.enter_house'), {position = 'left-center'})
-                elseif not config.useDrawText then
+                if not config.useDrawText then
                     qbx.drawText3d({
-                        text = locale('text.enter_house'),
+                        text = locale('text.enter_requirements'),
                         coords = sharedConfig.houses[i].coords,
                     })
+                elseif not hasShownText then
+                    hasShownText = true
+                    lib.showTextUI(locale('text.enter_house'), {position = 'left-center'})
                 end
                 if IsControlJustReleased(0, 38) then
                     lib.requestAnimDict('anim@heists@keycard@')
@@ -42,14 +42,14 @@ CreateThread(function()
             elseif distance <= 1.6 and not sharedConfig.houses[i].opened then
                 waitTime = 0
                 nearby = true
-                if config.useDrawText and not hasShownText then
-                    hasShownText = true
-                    lib.showTextUI(locale('text.enter_requirements'), {position = 'left-center'})
-                elseif not config.useDrawText then
+                if not config.useDrawText then
                     qbx.drawText3d({
                         text = locale('text.enter_requirements'),
                         coords = sharedConfig.houses[i].coords,
                     })
+                    elseif not hasShownText then
+                    hasShownText = true
+                    lib.showTextUI(locale('text.enter_requirements'), {position = 'left-center'})
                 end
             end
         end
@@ -72,14 +72,14 @@ CreateThread(function()
             if #(playerCoords - exit) <= 1.4 then
                 waitTime = 0
                 nearby = true
-                if config.useDrawText and not hasShownText then
-                    hasShownText = true
-                    lib.showTextUI(locale('text.leave_house'), {position = 'left-center'})
-                elseif not config.useDrawText then
+                if not config.useDrawText then
                     qbx.drawText3d({
                         text = locale('text.leave_house'),
                         coords = exit,
                     })
+                elseif not hasShownText then
+                    hasShownText = true
+                    lib.showTextUI(locale('text.leave_house'), {position = 'left-center'})
                 end
                 if IsControlJustReleased(0, 38) then
                     lib.requestAnimDict('anim@heists@keycard@')
@@ -108,14 +108,15 @@ CreateThread(function()
                 if #(playerCoords - sharedConfig.houses[house].loot[i].coords) < 0.8 and not sharedConfig.houses[house].loot[i].isOpened then
                     waitTime = 0
                     nearby = true
-                    if config.useDrawText and not hasShownText then
+                    if not config.useDrawText then
+                        qbx.drawText3d({
+                            text = locale('text.leave_house'),
+                            coords = exit,
+                        })
+
+                    elseif not hasShownText then
                         hasShownText = true
                         lib.showTextUI(locale('text.search'), {position = 'left-center'})
-                    elseif not config.useDrawText then
-                        qbx.drawText3d({
-                            text = locale('text.search'),
-                            coords = sharedConfig.houses[house].loot[i].coords
-                       })
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
@@ -164,14 +165,14 @@ CreateThread(function()
                     waitTime = 0
                     nearby = true
                     local rewardLabel = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']
-                    if config.useDrawText and not hasShownText then
-                        hasShownText = true
-                        lib.showTextUI(locale('text.pickup', rewardLabel), {position = 'left-center'})
-                    elseif not config.useDrawText then
+                    if not config.useDrawText then
                         qbx.drawText3d({
                             text = locale('text.pickup', rewardLabel),
                             coords = sharedConfig.houses[house].pickups[i].coords
                         })
+                    elseif not hasShownText then
+                        hasShownText = true
+                        lib.showTextUI(locale('text.pickup', rewardLabel), {position = 'left-center'})
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
