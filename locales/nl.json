@@ -8,7 +8,8 @@
 
     },
     "notify": {
-        "no_police": "Niet genoeg politie ('%{Required}' Required)",
+        "no_police": "Niet genoeg politie (%s Required)",
+
         "fail_skillcheck": "Skillcheck gefaald",
         "success_skillcheck": "Skillcheck gelukt",
         "busy": "Er is al iemand hiermee bezig",
