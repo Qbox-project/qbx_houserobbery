@@ -4,7 +4,8 @@
         "enter_requirements": "Lockpick | Schroevendraaier set",
         "leave_house": "~g~E~w~ - Verlaat huis",
         "search": "~g~E~w~ - Zoeken",
-        "pickup": "~g~E~w~ - Pak %{Item}"
+        "pickup": "~g~E~w~ - Pak %s"
+
     },
     "notify": {
         "no_police": "Niet genoeg politie ('%{Required}' Required)",
