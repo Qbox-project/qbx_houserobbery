@@ -183,7 +183,7 @@ lib.callback.register('qbx_houserobbery:callback:checkPickup', function(source, 
         return
     end
     if pickup.isBusy then
-        exports.qbx_core:Notify(source, locale('notify.busy')) 
+        exports.qbx_core:Notify(source, locale('notify.busy'))
         return
     end
     if pickup.isOpened then
