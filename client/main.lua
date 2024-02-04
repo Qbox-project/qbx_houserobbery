@@ -50,7 +50,7 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then hasShownText = false exports['qbx-core']:HideText() end
+        if not nearby and hasShownText then hasShownText = false lib.hideTextUI() end
         Wait(waitTime)
     end
 end)
@@ -82,7 +82,7 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then hasShownText = false exports['qbx-core']:HideText() end
+        if not nearby and hasShownText then hasShownText = false lib.hideTextUI()lib.hideTextUI() end
         Wait(waitTime)
     end
 end)
@@ -133,7 +133,7 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then hasShownText = false exports['qbx-core']:HideText() end
+        if not nearby and hasShownText then hasShownText = false lib.hideTextUI() end
         Wait(waitTime)
     end
 end)
@@ -190,7 +190,7 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then hasShownText = false exports['qbx-core']:HideText() end
+        if not nearby and hasShownText then hasShownText = false lib.hideTextUI() end
         Wait(waitTime)
     end
 end)
