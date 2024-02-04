@@ -27,7 +27,7 @@ CreateThread(function()
                 if config.useDrawText and not hasShownText then
                     hasShownText = true
                     lib.showTextUI(locale('text.enter_house'), {position = 'left-center'})
-                else
+                elseif not config.useDrawText then
                     qbx.drawText3d({
                         text = locale('text.enter_house'),
                         coords = sharedConfig.houses[i].coords,
@@ -45,7 +45,7 @@ CreateThread(function()
                 if config.useDrawText and not hasShownText then
                     hasShownText = true
                     lib.showTextUI(locale('text.enter_requirements'), {position = 'left-center'})
-                else
+                elseif not config.useDrawText then
                     qbx.drawText3d({
                         text = locale('text.enter_requirements'),
                         coords = sharedConfig.houses[i].coords,
@@ -75,7 +75,7 @@ CreateThread(function()
                 if config.useDrawText and not hasShownText then
                     hasShownText = true
                     lib.showTextUI(locale('text.leave_house'), {position = 'left-center'})
-                else
+                elseif not config.useDrawText then
                     qbx.drawText3d({
                         text = locale('text.leave_house'),
                         coords = exit,
@@ -111,7 +111,7 @@ CreateThread(function()
                     if config.useDrawText and not hasShownText then
                         hasShownText = true
                         lib.showTextUI(locale('text.search'), {position = 'left-center'})
-                    else
+                elseif not config.useDrawText then
                     qbx.drawText3d({
                             text = locale('text.search'),
                             coords = sharedConfig.houses[house].loot[i].coords
@@ -167,7 +167,7 @@ CreateThread(function()
                         hasShownText = true
                         local rewardLabel = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']
                         lib.showTextUI(locale('text.pickup', rewardLabel), {position = 'left-center'})
-                    else
+                elseif not config.useDrawText then
                     qbx.drawText3d({
                             text = locale('text.pickup', ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']),
                             coords = sharedConfig.houses[house].pickups[i].coords
