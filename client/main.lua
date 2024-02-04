@@ -43,11 +43,10 @@ CreateThread(function()
             elseif distance <= 1.6 and not sharedConfig.houses[i].opened then
                 waitTime = 0
                 nearby = true
-                if config.useDrawText then
-                    if not hasShownText then
-                        hasShownText = true
-                        lib.showTextUI(locale('text.enter_requirements'), {position = 'left-center'})
-                    end
+                if config.useDrawText and not hasShownText then
+                    hasShownText = true
+                    lib.showTextUI(locale('text.enter_requirements'), {position = 'left-center'})
+                end                
                 else
                     qbx.drawText3d({
                         text = locale('text.enter_requirements'),
@@ -75,11 +74,10 @@ CreateThread(function()
             if #(playerCoords - exit) <= 1.4 then
                 waitTime = 0
                 nearby = true
-                if config.useDrawText then
-                    if not hasShownText then
-                        hasShownText = true
-                        lib.showTextUI(locale('text.leave_house'), {position = 'left-center'})
-                    end
+                if config.useDrawText and not hasShownText then
+                    hasShownText = true
+                    lib.showTextUI(locale('text.leave_house'), {position = 'left-center'})
+                end                
                 else
                     qbx.drawText3d({
                         text = locale('text.leave_house'),
@@ -113,11 +111,10 @@ CreateThread(function()
                 if #(playerCoords - sharedConfig.houses[house].loot[i].coords) < 0.8 and not sharedConfig.houses[house].loot[i].isOpened then
                     waitTime = 0
                     nearby = true
-                    if config.useDrawText then
-                        if not hasShownText then
-                            hasShownText = true
-                            lib.showTextUI(locale('text.search'), {position = 'left-center'})
-                        end
+                    if config.useDrawText and not hasShownText then
+                        hasShownText = true
+                        lib.showTextUI(locale('text.search'), {position = 'left-center'})
+                    end                    
                     else
                     qbx.drawText3d({
                             text = locale('text.search'),
@@ -170,11 +167,11 @@ CreateThread(function()
                 if #(playerCoords - sharedConfig.houses[house].pickups[i].coords) < 0.8 and not sharedConfig.houses[house].pickups[i].isOpened then
                     waitTime = 0
                     nearby = true
-                    if config.useDrawText then
-                        if not hasShownText then
-                            hasShownText = true
-                            lib.showTextUI(locale('text.pickup', ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']), {position = 'left-center'})
-                        end
+                    if config.useDrawText and not hasShownText then
+                        hasShownText = true
+                        local rewardLabel = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']
+                        lib.showTextUI(locale('text.pickup', rewardLabel), {position = 'left-center'})
+                    end                    
                     else
                     qbx.drawText3d({
                             text = locale('text.pickup', ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']),
