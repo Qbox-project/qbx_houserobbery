@@ -76,7 +76,6 @@ CreateThread(function()
                 if config.useDrawText and not hasShownText then
                     hasShownText = true
                     lib.showTextUI(locale('text.leave_house'), {position = 'left-center'})
-                end                
                 else
                     qbx.drawText3d({
                         text = locale('text.leave_house'),
