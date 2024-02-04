@@ -123,9 +123,9 @@ CreateThread(function()
                         end
                     else
                     qbx.drawText3d({
-                            text = locale('text.pickup', { Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label'] }),
-                            coords = sharedConfig.houses[house].pickups[i].coords
-                    })
+                            text = locale('text.search'),
+                            coords = sharedConfig.houses[house].loot[i].coords
+                   })
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
