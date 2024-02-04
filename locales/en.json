@@ -7,7 +7,7 @@
         "pickup": "~g~E~w~ - Grab %s"
     },
     "notify": {
-        "no_police": "Not Enough Police (%{Required} Required)",
+        "no_police": "Not Enough Police (%s Required)",
         "fail_skillcheck": "Failed Skillcheck",
         "success_skillcheck": "Successful Skillcheck",
         "busy": "Someone is already on it",
