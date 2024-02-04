@@ -119,7 +119,7 @@ CreateThread(function()
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
-                        local canStart = lib.callback.await('qbx_houserobbery:callback:checkLoot', false, house, i)
+                        local canStart = lib.callback.await('qbx_houserobbery:server:checkLoot', false, house, i)
                         if not canStart then return end
                         if lib.progressCircle({
                             duration = math.random(4000, 8000),
@@ -163,15 +163,15 @@ CreateThread(function()
                 if #(playerCoords - sharedConfig.houses[house].pickups[i].coords) < 0.8 and not sharedConfig.houses[house].pickups[i].isOpened then
                     waitTime = 0
                     nearby = true
+                    local rewardLabel = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']
                     if config.useDrawText and not hasShownText then
                         hasShownText = true
-                        local rewardLabel = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']
                         lib.showTextUI(locale('text.pickup', rewardLabel), {position = 'left-center'})
                     elseif not config.useDrawText then
-                       qbx.drawText3d({
-                            text = locale('text.pickup', ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']),
+                        qbx.drawText3d({
+                            text = locale('text.pickup', rewardLabel),
                             coords = sharedConfig.houses[house].pickups[i].coords
-                       })
+                        })
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
@@ -214,7 +214,7 @@ CreateThread(function()
     end
 end)
 
-lib.callback.register('qbx_houserobbery:callback:startSkillcheck', function(difficulty)
+lib.callback.register('qbx_houserobbery:client:startSkillcheck', function(difficulty)
     lib.requestAnimDict('veh@break_in@0h@p_m_one@')
     TaskPlayAnim(cache.ped, 'veh@break_in@0h@p_m_one@', 'std_force_entry_rds', 3.0, 3.0, -1, 17, 0, false, false, false)
     local Success = lib.skillCheck(difficulty)
@@ -223,7 +223,7 @@ lib.callback.register('qbx_houserobbery:callback:startSkillcheck', function(diff
     return Success
 end)
 
-lib.callback.register('qbx_houserobbery:callback:checkTime', function()
+lib.callback.register('qbx_houserobbery:client:checkTime', function()
     local currentHour = GetClockHours()
     return currentHour >= config.startHours or currentHour <= config.endHours
 end)

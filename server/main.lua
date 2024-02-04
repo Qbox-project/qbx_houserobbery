@@ -84,11 +84,11 @@ AddEventHandler('lockpicks:UseLockpick', function(playerSource, isAdvanced)
         end
     end
 
-    local result = lib.callback.await('qbx_houserobbery:callback:checkTime', playerSource)
+    local result = lib.callback.await('qbx_houserobbery:client:checkTime', playerSource)
 
     if not result then return end
 
-    local skillcheck = lib.callback.await('qbx_houserobbery:callback:startSkillcheck', playerSource, sharedConfig.interiors[house.interior].skillcheck)
+    local skillcheck = lib.callback.await('qbx_houserobbery:client:startSkillcheck', playerSource, sharedConfig.interiors[house.interior].skillcheck)
 
     if skillcheck then
         sharedConfig.houses[closestHouseIndex].opened = true
@@ -122,7 +122,7 @@ RegisterNetEvent('qbx_houserobbery:server:leaveHouse', function()
     leaveHouse(source, sharedConfig.houses[index].coords)
 end)
 
-lib.callback.register('qbx_houserobbery:callback:checkLoot', function(source, houseIndex, lootIndex)
+lib.callback.register('qbx_houserobbery:server:checkLoot', function(source, houseIndex, lootIndex)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     local loot = sharedConfig.houses[houseIndex].loot[lootIndex]
 
@@ -170,7 +170,7 @@ lib.callback.register('qbx_houserobbery:server:checkPickup', function(source, ho
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     local house = sharedConfig.houses[houseIndex]
     if not house or not house.pickups then return end
-    
+
     local pickup = house.pickups[pickupIndex]
     if not pickup or #(playerCoords - pickup.coords) > 3 then return end
     if pickup.isBusy then
