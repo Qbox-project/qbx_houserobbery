@@ -24,11 +24,10 @@ CreateThread(function()
                 waitTime = 0
                 nearby = true
                 house = i
-                if config.useDrawText then
-                    if not hasShownText then
-                        hasShownText = true
-                        lib.showTextUI(locale('text.enter_house'), {position = 'left-center'})
-                    end
+                if config.useDrawText and not hasShownText then
+                   hasShownText = true
+                   lib.showTextUI(locale('text.enter_house'), {position = 'left-center'})
+              end
                 else
                     qbx.drawText3d({
                         text = locale('text.enter_house'),
