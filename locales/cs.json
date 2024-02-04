@@ -7,7 +7,7 @@
         "pickup": "~g~E~w~ - Sebrat %s"
     },
     "notify": {
-        "no_police": "Nedostatek Policistů ('%{Required}' Požadováno)",
+        "no_police": "Nedostatek Policistů (%s Požadováno)",
         "fail_skillcheck": "Selhalo Skillcheck",
         "success_skillcheck": "Úspěšný Skillcheck",
         "busy": "Někdo už na tom pracuje",
