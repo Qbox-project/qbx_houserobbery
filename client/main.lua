@@ -110,10 +110,9 @@ CreateThread(function()
                     nearby = true
                     if not config.useDrawText then
                         qbx.drawText3d({
-                            text = locale('text.leave_house'),
-                            coords = exit,
-                        })
-
+                            text = locale('text.search'),
+                            coords = sharedConfig.houses[house].loot[i].coords
+                       })
                     elseif not hasShownText then
                         hasShownText = true
                         lib.showTextUI(locale('text.search'), {position = 'left-center'})
