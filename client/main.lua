@@ -27,7 +27,6 @@ CreateThread(function()
                 if config.useDrawText and not hasShownText then
                     hasShownText = true
                     lib.showTextUI(locale('text.enter_house'), {position = 'left-center'})
-                end
             else
                 qbx.drawText3d({
                     text = locale('text.enter_house'),
@@ -112,7 +111,6 @@ CreateThread(function()
                     if config.useDrawText and not hasShownText then
                         hasShownText = true
                         lib.showTextUI(locale('text.search'), {position = 'left-center'})
-                    end                    
                     else
                     qbx.drawText3d({
                             text = locale('text.search'),
