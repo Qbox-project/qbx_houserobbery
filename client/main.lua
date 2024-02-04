@@ -26,10 +26,10 @@ CreateThread(function()
                 if config.useDrawText then
                     if not hasShownText then
                         hasShownText = true
-                        lib.showTextUI(Lang:t('text.enter_house'), {position = 'left-center'})
+                        lib.showTextUI(locale('text.enter_house'), {position = 'left-center'})
                     end
                 else
-                    qbx.DrawText3D(Lang:t('text.enter_house'), sharedConfig.houses[i].coords)
+                    qbx.DrawText3D(locale('text.enter_house'), sharedConfig.houses[i].coords)
                 end
                 if IsControlJustReleased(0, 38) then
                     lib.requestAnimDict('anim@heists@keycard@')
@@ -43,10 +43,10 @@ CreateThread(function()
                 if config.useDrawText then
                     if not hasShownText then
                         hasShownText = true
-                        lib.showTextUI(Lang:t('text.enter_requirements'), {position = 'left-center'})
+                        lib.showTextUI(locale('text.enter_requirements'), {position = 'left-center'})
                     end
                 else
-                    qbx.DrawText3D(Lang:t('text.enter_requirements'), sharedConfig.houses[i].coords)
+                    qbx.DrawText3D(locale('text.enter_requirements'), sharedConfig.houses[i].coords)
                 end
             end
         end
@@ -69,10 +69,10 @@ CreateThread(function()
                 if config.useDrawText then
                     if not hasShownText then
                         hasShownText = true
-                        lib.showTextUI(Lang:t('text.leave_house'), {position = 'left-center'})
+                        lib.showTextUI(locale('text.leave_house'), {position = 'left-center'})
                     end
                 else
-                    qbx.DrawText3D(Lang:t('text.leave_house'), exit)
+                    qbx.DrawText3D(locale('text.leave_house'), exit)
                 end
                 if IsControlJustReleased(0, 38) then
                     lib.requestAnimDict('anim@heists@keycard@')
@@ -101,10 +101,10 @@ CreateThread(function()
                     if config.useDrawText then
                         if not hasShownText then
                             hasShownText = true
-                            lib.showTextUI(Lang:t('text.search'), {position = 'left-center'})
+                            lib.showTextUI(locale('text.search'), {position = 'left-center'})
                         end
                     else
-                        qbx.DrawText3D(Lang:t('text.search'), sharedConfig.houses[house].loot[i].coords)
+                        qbx.DrawText3D(locale('text.search'), sharedConfig.houses[house].loot[i].coords)
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
@@ -152,10 +152,10 @@ CreateThread(function()
                     if config.useDrawText then
                         if not hasShownText then
                             hasShownText = true
-                            lib.showTextUI(Lang:t('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), {position = 'left-center'})
+                            lib.showTextUI(locale('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), {position = 'left-center'})
                         end
                     else
-                        qbx.DrawText3D(Lang:t('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), sharedConfig.houses[house].pickups[i].coords)
+                        qbx.DrawText3D(locale('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), sharedConfig.houses[house].pickups[i].coords)
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
