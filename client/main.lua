@@ -4,7 +4,9 @@ local house = 1
 local ITEMS = exports.ox_inventory:Items()
 
 local function dropFingerprint()
-    if qbx.IsWearingGloves() then return end
+    if IsWearingGloves() then
+        return
+    end
 
     local coords = GetEntityCoords(cache.ped)
     if config.fingerprintChance > math.random(0, 100) then
@@ -19,7 +21,8 @@ CreateThread(function()
         local waitTime = 800
         local nearby = false
         for i = 1, #sharedConfig.houses do
-            if #(playerCoords - sharedConfig.houses[i].coords) <= 1.4 and sharedConfig.houses[i].opened then
+            local distance = #(playerCoords - sharedConfig.houses[i].coords)
+            if distance <= 1.4 and sharedConfig.houses[i].opened then
                 waitTime = 0
                 nearby = true
                 house = i
@@ -29,7 +32,10 @@ CreateThread(function()
                         lib.showTextUI(locale('text.enter_house'), {position = 'left-center'})
                     end
                 else
-                    qbx.DrawText3D(locale('text.enter_house'), sharedConfig.houses[i].coords)
+                    qbx.drawText3d({
+                        text = locale('text.enter_house'),
+                        coords = sharedConfig.houses[i].coords,
+                    })
                 end
                 if IsControlJustReleased(0, 38) then
                     lib.requestAnimDict('anim@heists@keycard@')
@@ -37,7 +43,7 @@ CreateThread(function()
                     TriggerServerEvent('qbx_houserobbery:server:enterHouse', i)
                     RemoveAnimDict('anim@heists@keycard@')
                 end
-            elseif #(playerCoords - sharedConfig.houses[i].coords) <= 1.6 and not sharedConfig.houses[i].opened then
+            elseif distance <= 1.6 and not sharedConfig.houses[i].opened then
                 waitTime = 0
                 nearby = true
                 if config.useDrawText then
@@ -46,11 +52,17 @@ CreateThread(function()
                         lib.showTextUI(locale('text.enter_requirements'), {position = 'left-center'})
                     end
                 else
-                    qbx.DrawText3D(locale('text.enter_requirements'), sharedConfig.houses[i].coords)
+                    qbx.drawText3d({
+                        text = locale('text.enter_requirements'),
+                        coords = sharedConfig.houses[i].coords,
+                    })
                 end
             end
         end
-        if not nearby and hasShownText then hasShownText = false lib.hideTextUI() end
+        if not nearby and hasShownText then 
+            hasShownText = false 
+            lib.hideTextUI()
+        end
         Wait(waitTime)
     end
 end)
@@ -72,7 +84,10 @@ CreateThread(function()
                         lib.showTextUI(locale('text.leave_house'), {position = 'left-center'})
                     end
                 else
-                    qbx.DrawText3D(locale('text.leave_house'), exit)
+                    qbx.drawText3d({
+                        text = locale('text.leave_house'),
+                        coords = exit,
+                    })
                 end
                 if IsControlJustReleased(0, 38) then
                     lib.requestAnimDict('anim@heists@keycard@')
@@ -82,7 +97,10 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then hasShownText = false lib.hideTextUI()lib.hideTextUI() end
+        if not nearby and hasShownText then 
+            hasShownText = false 
+            lib.hideTextUI()
+        end
         Wait(waitTime)
     end
 end)
@@ -104,7 +122,10 @@ CreateThread(function()
                             lib.showTextUI(locale('text.search'), {position = 'left-center'})
                         end
                     else
-                        qbx.DrawText3D(locale('text.search'), sharedConfig.houses[house].loot[i].coords)
+                        qbx.drawText3d({
+                            text = locale('text.search'),
+                            coords = sharedConfig.houses[house].loot[i].coords,
+                        })
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
@@ -133,7 +154,10 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then hasShownText = false lib.hideTextUI() end
+        if not nearby and hasShownText then 
+            hasShownText = false 
+            lib.hideTextUI() 
+        end
         Wait(waitTime)
     end
 end)
@@ -190,7 +214,10 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then hasShownText = false lib.hideTextUI() end
+        if not nearby and hasShownText then 
+            hasShownText = false 
+            lib.hideTextUI() 
+        end
         Wait(waitTime)
     end
 end)
@@ -206,11 +233,7 @@ end)
 
 lib.callback.register('qbx_houserobbery:callback:checkTime', function()
     local currentHour = GetClockHours()
-    if currentHour >= config.startHours or currentHour <= config.endHours then
-        return true
-    else
-        return false
-    end
+    return currentHour >= config.startHours or currentHour <= config.endHours
 end)
 
 RegisterNetEvent('qbx_houserobbery:client:syncconfig', function(data, index)
