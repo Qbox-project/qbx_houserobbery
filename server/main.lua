@@ -166,7 +166,7 @@ RegisterNetEvent('qbx_houserobbery:server:lootCancelled', function(houseIndex, l
     sharedConfig.houses[houseIndex].loot[lootIndex].isBusy = false
 end)
 
-lib.callback.register('qbx_houserobbery:callback:checkPickup', function(source, houseIndex, pickupIndex)
+lib.callback.register('qbx_houserobbery:server:checkPickup', function(source, houseIndex, pickupIndex)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     local house = sharedConfig.houses[houseIndex]
     if not house or not house.pickups then return end

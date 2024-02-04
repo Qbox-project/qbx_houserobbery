@@ -175,7 +175,7 @@ CreateThread(function()
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
-                        local canStart = lib.callback.await('qbx_houserobbery:callback:checkPickup', false, house, i)
+                        local canStart = lib.callback.await('qbx_houserobbery:server:checkPickup', false, house, i)
                         if not canStart then return end
                         if lib.progressCircle({
                             duration = math.random(4000, 8000),
