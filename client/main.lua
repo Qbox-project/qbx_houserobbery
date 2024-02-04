@@ -169,7 +169,6 @@ CreateThread(function()
                         hasShownText = true
                         local rewardLabel = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']
                         lib.showTextUI(locale('text.pickup', rewardLabel), {position = 'left-center'})
-                    end                    
                     else
                     qbx.drawText3d({
                             text = locale('text.pickup', ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']),
