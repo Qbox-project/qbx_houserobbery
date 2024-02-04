@@ -1,10 +1,10 @@
 {
     "text": {
-        "enter_house": "~g~E~w~ - Vstoupit do domu",
+        "enter_house": "[E] - Vstoupit do domu",
         "enter_requirements": "Lomítko | Sada šroubováků",
-        "leave_house": "~g~E~w~ - Opustit dům",
-        "search": "~g~E~w~ - Prohledat okolí",
-        "pickup": "~g~E~w~ - Sebrat %s"
+        "leave_house": "[E] - Opustit dům",
+        "search": "[E] - Prohledat okolí",
+        "pickup": "[E] - Sebrat %s"
     },
     "notify": {
         "no_police": "Nedostatek Policistů (%s Požadováno)",

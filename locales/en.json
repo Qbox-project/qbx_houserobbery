@@ -1,10 +1,10 @@
 {
     "text": {
-        "enter_house": "~g~E~w~ - Enter House",
+        "enter_house": "[E] - Enter House",
         "enter_requirements": "Lockpick | Screwdriver set",
-        "leave_house": "~g~E~w~ - Leave House",
-        "search": "~g~E~w~ - Search Around",
-        "pickup": "~g~E~w~ - Grab %s"
+        "leave_house": "[E] - Leave House",
+        "search": "[E] - Search Around",
+        "pickup": "[E] - Grab %s"
     },
     "notify": {
         "no_police": "Not Enough Police (%s Required)",

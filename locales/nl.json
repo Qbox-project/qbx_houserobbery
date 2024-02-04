@@ -1,10 +1,10 @@
 {
     "text": {
-        "enter_house": "~g~E~w~ - Betreed huis",
+        "enter_house": "[E] - Betreed huis",
         "enter_requirements": "Lockpick | Schroevendraaier set",
-        "leave_house": "~g~E~w~ - Verlaat huis",
-        "search": "~g~E~w~ - Zoeken",
-        "pickup": "~g~E~w~ - Pak %s"
+        "leave_house": "[E] - Verlaat huis",
+        "search": "[E] - Zoeken",
+        "pickup": "[E] - Pak %s"
 
     },
     "notify": {
