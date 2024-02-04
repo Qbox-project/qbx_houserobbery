@@ -174,7 +174,7 @@ CreateThread(function()
                     if config.useDrawText then
                         if not hasShownText then
                             hasShownText = true
-                            lib.showTextUI(locale('text.pickup', {Item = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']}), {position = 'left-center'})
+                            lib.showTextUI(locale('text.pickup', ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']), {position = 'left-center'})
                         end
                     else
                     qbx.drawText3d({
