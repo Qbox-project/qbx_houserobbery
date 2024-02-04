@@ -4,9 +4,7 @@ local house = 1
 local ITEMS = exports.ox_inventory:Items()
 
 local function dropFingerprint()
-    if qbx.isWearingGloves() then
-        return
-    end
+    if qbx.isWearingGloves() then return end
 
     local coords = GetEntityCoords(cache.ped)
     if config.fingerprintChance > math.random(0, 100) then
