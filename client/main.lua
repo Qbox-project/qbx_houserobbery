@@ -111,11 +111,11 @@ CreateThread(function()
                     if config.useDrawText and not hasShownText then
                         hasShownText = true
                         lib.showTextUI(locale('text.search'), {position = 'left-center'})
-                elseif not config.useDrawText then
-                    qbx.drawText3d({
+                    elseif not config.useDrawText then
+                        qbx.drawText3d({
                             text = locale('text.search'),
                             coords = sharedConfig.houses[house].loot[i].coords
-                   })
+                       })
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
@@ -167,11 +167,11 @@ CreateThread(function()
                         hasShownText = true
                         local rewardLabel = ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']
                         lib.showTextUI(locale('text.pickup', rewardLabel), {position = 'left-center'})
-                elseif not config.useDrawText then
-                    qbx.drawText3d({
+                    elseif not config.useDrawText then
+                       qbx.drawText3d({
                             text = locale('text.pickup', ITEMS[sharedConfig.houses[house].pickups[i].reward]['label']),
                             coords = sharedConfig.houses[house].pickups[i].coords
-                    })
+                       })
                     end
                     if IsControlJustReleased(0, 38) then
                         dropFingerprint()
