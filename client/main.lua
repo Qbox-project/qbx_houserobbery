@@ -59,7 +59,7 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then 
+        if not nearby and hasShownText then
             hasShownText = false 
             lib.hideTextUI()
         end
@@ -97,8 +97,8 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then 
-            hasShownText = false 
+        if not nearby and hasShownText then
+            hasShownText = false
             lib.hideTextUI()
         end
         Wait(waitTime)
@@ -154,9 +154,9 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then 
-            hasShownText = false 
-            lib.hideTextUI() 
+        if not nearby and hasShownText then
+            hasShownText = false
+            lib.hideTextUI()
         end
         Wait(waitTime)
     end
@@ -214,9 +214,9 @@ CreateThread(function()
                 end
             end
         end
-        if not nearby and hasShownText then 
-            hasShownText = false 
-            lib.hideTextUI() 
+        if not nearby and hasShownText then
+            hasShownText = false
+            lib.hideTextUI()
         end
         Wait(waitTime)
     end
