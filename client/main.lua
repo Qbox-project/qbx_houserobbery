@@ -4,7 +4,7 @@ local house = 1
 local ITEMS = exports.ox_inventory:Items()
 
 local function dropFingerprint()
-    if qbx.IsWearingGloves() then
+    if qbx.isWearingGloves() then
         return
     end
 
