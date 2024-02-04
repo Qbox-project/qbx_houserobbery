@@ -196,7 +196,7 @@ CreateThread(function()
                         else
                             TriggerServerEvent('qbx_houserobbery:server:pickupCancelled', house, i)
                         end
-                    end                    
+                    end          
                 elseif #(playerCoords - sharedConfig.houses[house].pickups[i].coords) < 30.0 and sharedConfig.houses[house].pickups[i].isOpened then
                     local Pickup = sharedConfig.houses[house].pickups[i]
                     local Entity = GetClosestObjectOfType(Pickup.coords.x, Pickup.coords.y, Pickup.coords.z, 3.0, joaat(Pickup.prop), false, false, false)
