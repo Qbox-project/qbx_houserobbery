@@ -1,6 +1,6 @@
 local config = require 'config.client'
 local sharedConfig = require 'config.shared'
-local houseEntrance, houseExit, houseLoot, housePickup = {}, {}, {}, {}
+local houseLoot = {}
 local house = 1
 local ITEMS = exports.ox_inventory:Items()
 
@@ -130,16 +130,13 @@ local function setupLoot()
         function point:nearby()
             handleHousePickup(self)
         end
-        housePickup[#housePickup + 1] = point
+        houseLoot[#houseLoot + 1] = point
     end
 end
 
 -- Removes loot from interiors on exit and unload
 local function removeLoot()
     for _, v in pairs(houseLoot) do
-        v:remove()
-    end
-    for _, v in pairs(housePickup) do
         v:remove()
     end
 end
@@ -201,7 +198,6 @@ local function setupHouses()
         function point:nearby()
             handleHouseEntrance(self)
         end
-        houseEntrance[#houseEntrance + 1] = point
     end
     for i = 1, #sharedConfig.interiors do
         local point = lib.points.new({
@@ -212,23 +208,13 @@ local function setupHouses()
         function point:onExit()
             lib.hideTextUI()
         end
-        
+
         function point:nearby()
             handleHouseExits(self)
         end
-        houseExit[#houseExit + 1] = point
     end
 end
 
--- Remove house points for character unload
-local function removeHouses()
-    for _, entrance in pairs(houseEntrance) do
-        entrance:remove()
-    end
-    for _, exit in pairs(houseExit) do
-        exit:remove()
-    end
-end
 
 ---@param difficulty SkillCheckDifficulity[] Ox_lib skillcheck difficulty table
 lib.callback.register('qbx_houserobbery:client:startSkillcheck', function(difficulty)
@@ -261,9 +247,11 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     setupHouses()
 end)
 
+-- Remove all points created by script to prevent duplicate points
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-    removeLoot()
-    removeHouses()
+    for _, v in pairs(lib.points.getAllPoints()) do
+        v:remove()
+    end
 end)
 
 AddEventHandler('onResourceStart', function(resource)
