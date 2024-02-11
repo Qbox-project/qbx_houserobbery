@@ -17,7 +17,7 @@ end
 -- currentDistance is used because 
 ---@param pickup CPoint Loot pickup point
 local function handleHousePickup(pickup)
-    local pickupId = pickup.id
+    local pickupId = pickup.housePickup
     if pickup.currentDistance < 0.8 and not sharedConfig.houses[house].pickups[pickupId].isOpened then
         if config.showPrompts then
             local rewardLabel = ITEMS[sharedConfig.houses[house].pickups[pickupId].reward]['label']
