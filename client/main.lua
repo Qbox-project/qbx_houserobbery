@@ -191,6 +191,10 @@ local function setupHouses()
             distance = config.debugPoints and 50 or 1.6,
             interior = sharedConfig.houses[i].interior
         })
+        function point:onEnter()
+            house = self.id
+        end
+        
         function point:onExit()
             lib.hideTextUI()
         end
