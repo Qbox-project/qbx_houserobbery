@@ -1,0 +1,16 @@
+{
+    "text": {
+        "enter_house": "[E] - Entrar na Casa",
+        "enter_requirements": "Gazua | Conjunto de Chaves de Fenda",
+        "leave_house": "[E] - Sair da Casa",
+        "search": "[E] - Procurar em Volta",
+        "pickup": "[E] - Pegar %s"
+    },
+    "notify": {
+        "no_police": "Não há polícias suficientes (%s necessário)",
+        "fail_skillcheck": "Falha na verificação de habilidade",
+        "success_skillcheck": "Verificação de habilidade bem-sucedida",
+        "busy": "Alguém já está nisso",
+        "police_alert": "Atividade suspeita perto de propriedade privada"
+    }
+}
