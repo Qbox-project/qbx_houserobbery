@@ -14,7 +14,7 @@ local function dropFingerprint()
 end
 
 -- Handle pickup of objects in an IPL. These are props that are part of the IPL
--- currentDistance is used because 
+-- currentDistance is used because
 ---@param pickup CPoint Loot pickup point
 local function handleHousePickup(pickup)
     local pickupId = pickup.housePickup
@@ -148,11 +148,9 @@ local function handleHouseEntrance(houseId)
     local isOpen = sharedConfig.houses[id].opened
     if isOpen then
         if IsControlJustReleased(0, 38) then
-            lib.requestAnimDict('anim@heists@keycard@')
-            TaskPlayAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
+            lib.playAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
             house = houseId.id
             TriggerServerEvent('qbx_houserobbery:server:enterHouse', houseId.id)
-            RemoveAnimDict('anim@heists@keycard@')
         end
     end
     local displayMessage = isOpen and locale('text.enter_house') or locale('text.enter_requirements')
@@ -174,11 +172,9 @@ local function handleHouseExits(interiorId)
         lib.showTextUI(label, { position = 'left-center' })
     end
     if IsControlJustReleased(0, 38) then
-        lib.requestAnimDict('anim@heists@keycard@')
-        TaskPlayAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
+        lib.playAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
         TriggerServerEvent('qbx_houserobbery:server:leaveHouse')
         removeLoot()
-        RemoveAnimDict('anim@heists@keycard@')
     end
 end
 
@@ -194,7 +190,7 @@ local function setupHouses()
         function point:onEnter()
             house = self.id
         end
-        
+
         function point:onExit()
             lib.hideTextUI()
         end
@@ -222,11 +218,9 @@ end
 
 ---@param difficulty SkillCheckDifficulity[] Ox_lib skillcheck difficulty table
 lib.callback.register('qbx_houserobbery:client:startSkillcheck', function(difficulty)
-    lib.requestAnimDict('veh@break_in@0h@p_m_one@')
-    TaskPlayAnim(cache.ped, 'veh@break_in@0h@p_m_one@', 'std_force_entry_rds', 3.0, 3.0, -1, 17, 0, false, false, false)
+    lib.playAnim(cache.ped, 'veh@break_in@0h@p_m_one@', 'std_force_entry_rds', 3.0, 3.0, -1, 17, 0, false, false, false)
     local success = lib.skillCheck(difficulty)
     ClearPedTasks(cache.ped)
-    RemoveAnimDict('veh@break_in@0h@p_m_one@')
     return success
 end)
 
