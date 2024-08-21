@@ -1,0 +1,16 @@
+{
+    "text": {
+        "enter_house": "[E] - Haus betreten",
+        "enter_requirements": "Dietrich | Schraubendreher-Set",
+        "leave_house": "[E] - Haus verlassen",
+        "search": "[E] - Dursuchen",
+        "pickup": "[E] - Aufheben %s"
+    },
+    "notify": {
+        "no_police": "Nicht genug Polizisten (%s Required)",
+        "fail_skillcheck": "Skillcheck fehlgeschlagen",
+        "success_skillcheck": "Skillcheck erfolgreich",
+        "busy": "Es ist bereits jemand drin",
+        "police_alert": "Verdächtige aktivität nahe Privateigentum"
+    }
+}
