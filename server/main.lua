@@ -288,7 +288,6 @@ CreateThread(function()
 end)
 
 -- Event handler to sync configuration to new players joining server
----@param source number Player server Id
-AddEventHandler('playerJoining', function(source)
+AddEventHandler('playerJoining', function()
     TriggerClientEvent('qbx_houserobbery:client:syncconfig', source, sharedConfig.houses)
 end)
