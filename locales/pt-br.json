@@ -1,0 +1,16 @@
+{
+    "text": {
+        "enter_house": "[E] - Entrar na Casa",
+        "enter_requirements": "Lockpick | Conjunto de Chaves de Fenda",
+        "leave_house": "[E] - Sair da Casa",
+        "search": "[E] - Procurar ao Redor",
+        "pickup": "[E] - Pegar %s"
+    },
+    "notify": {
+        "no_police": "Policiais Insuficientes (%s Necessários)",
+        "fail_skillcheck": "Teste de Habilidade Falhou",
+        "success_skillcheck": "Teste de Habilidade Bem-Sucedido",
+        "busy": "Alguém já está fazendo isso",
+        "police_alert": "Atividade suspeita próxima a uma propriedade"
+    }
+}
