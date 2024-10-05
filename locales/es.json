@@ -1,0 +1,16 @@
+{
+    "text": {
+        "enter_house": "[E] - Entrar a la Casa",
+        "enter_requirements": "Ganzúa | Juego de destornilladores",
+        "leave_house": "[E] - Salir de la Casa",
+        "search": "[E] - Buscar Alrededor",
+        "pickup": "[E] - Agarrar %s"
+    },
+    "notify": {
+        "no_police": "No hay suficientes policías (%s requeridos)",
+        "fail_skillcheck": "Prueba de habilidad fallida",
+        "success_skillcheck": "Prueba de habilidad exitosa",
+        "busy": "Alguien ya está en ello",
+        "police_alert": "Actividad sospechosa cerca de una propiedad privada"
+    }
+}
