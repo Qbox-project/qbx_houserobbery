@@ -1,0 +1,16 @@
+{
+    "text": {
+        "enter_house": "[E] - Wejdź do domu",
+        "enter_requirements": "Wytrych | Zestaw śrubokrętów",
+        "leave_house": "[E] - Opuść dom",
+        "search": "[E] - Przeszukaj teren",
+        "pickup": "[E] - Podnieś %s"
+    },
+    "notify": {
+        "no_police": "Niewystarczająca liczba policjantów (wymagane %s)",
+        "fail_skillcheck": "Nieudana próba umiejętności",
+        "success_skillcheck": "Udana próba umiejętności",
+        "busy": "Ktoś już to robi",
+        "police_alert": "Podejrzana aktywność w pobliżu posesji"
+    }
+}
