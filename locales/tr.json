@@ -1,0 +1,16 @@
+{
+  "text": {
+    "enter_house": "[E] - Eve Gir",
+    "enter_requirements": "Kilit Açma Seti | Tornavida Seti",
+    "leave_house": "[E] - Evden Çık",
+    "search": "[E] - Etrafı Ara",
+    "pickup": "[E] - %s'yi Al"
+  },
+  "notify": {
+    "no_police": "Yeterli Polis Yok (%s Gerekli)",
+    "fail_skillcheck": "Eve Giriş Başarısız",
+    "success_skillcheck": "Eve Başarıyla Girdin",
+    "busy": "Birisi zaten evde",
+    "police_alert": "Ev yakınında şüpheli faaliyet tespit edildi"
+  }
+}
