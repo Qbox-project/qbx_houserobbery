@@ -1,0 +1,16 @@
+{
+    "text": {
+        "enter_house": "[E] - Entrer dans la maison",
+        "enter_requirements": "Crochet | Jeu de tournevis",
+        "leave_house": "[E] - Sortir de la maison",
+        "search": "[E] - Fouiller les alentours",
+        "pickup": "[E] - Prendre %s"
+    },
+    "notify": {
+        "no_police": "Pas assez de police (%s requis)",
+        "fail_skillcheck": "Échec du test d'habileté",
+        "success_skillcheck": "Test d'habileté réussi",
+        "busy": "Quelqu'un s'en occupe déjà",
+        "police_alert": "Activité suspecte près d'une propriété privée"
+    }
+}
