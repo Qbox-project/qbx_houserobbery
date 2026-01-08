@@ -215,6 +215,47 @@ local function setupHouses()
     end
 end
 
+---@param coords { x: number, y: number, z: number }
+---@return number blipHandle
+local createHouseBlip<const> = function(coords)
+    local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+    SetBlipSprite(blip, config.blip.sprite)
+    SetBlipColour(blip, config.blip.color)
+    SetBlipScale(blip, config.blip.scale)
+    SetBlipAsShortRange(blip, true)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString(locale("neighbour_house"))
+    EndTextCommandSetBlipName(blip)
+    return blip
+end
+
+---@return nil
+local showNearestHouseBlip<const> = function()
+    while true do
+        local coords = GetEntityCoords(PlayerPedId())
+        local closest = 1000000
+        local closestCoords = nil
+
+        for _, houseSetting in pairs(sharedConfig.houses) do
+            local houseCoords = houseSetting.coords
+            local dist = #(coords - houseCoords)
+            if dist < closest then
+                closest = dist
+                closestCoords = houseCoords
+            end
+        end
+
+        if DoesBlipExist(HouseBlip) then
+            RemoveBlip(HouseBlip)
+        end
+
+        if closestCoords then
+            HouseBlip = createHouseBlip(closestCoords)
+        end
+
+        Wait(config.blip.updateInterval)
+    end
+end
 
 ---@param difficulty SkillCheckDifficulity[] Ox_lib skillcheck difficulty table
 lib.callback.register('qbx_houserobbery:client:startSkillcheck', function(difficulty)
@@ -257,3 +298,5 @@ AddEventHandler('onResourceStart', function(resource)
 
     setupHouses()
 end)
+
+CreateThread(showNearestHouseBlip)

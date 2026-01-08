@@ -4,7 +4,8 @@
         "enter_requirements": "Lockpick | Screwdriver set",
         "leave_house": "[E] - Leave House",
         "search": "[E] - Search Around",
-        "pickup": "[E] - Grab %s"
+        "pickup": "[E] - Grab %s",
+        "neighbour_house": "Neighbour House"
     },
     "notify": {
         "no_police": "Not Enough Police (%s Required)",
