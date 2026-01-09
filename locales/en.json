@@ -4,13 +4,15 @@
         "enter_requirements": "Lockpick | Screwdriver set",
         "leave_house": "[E] - Leave House",
         "search": "[E] - Search Around",
-        "pickup": "[E] - Grab %s"
+        "pickup": "[E] - Grab %s",
+        "neighbour_house": "Neighbour House"
     },
     "notify": {
         "no_police": "Not Enough Police (%s Required)",
         "fail_skillcheck": "Failed Skillcheck",
         "success_skillcheck": "Successful Skillcheck",
         "busy": "Someone is already on it",
-        "police_alert": "Suspicious activity near owned property"
+        "police_alert": "Suspicious activity near owned property",
+        "owner_inside": "Looks like the house's owners here, come back later"
     }
 }

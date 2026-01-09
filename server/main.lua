@@ -109,7 +109,10 @@ AddEventHandler('lockpicks:UseLockpick', function(playerSource, isAdvanced)
 
     local result = lib.callback.await('qbx_houserobbery:client:checkTime', playerSource)
 
-    if not result then return end
+    if not result then
+      exports.qbx_core:Notify(playerSource, locale('notify.owner_inside'), 'error')
+      return
+    end
 
     local skillcheck = lib.callback.await('qbx_houserobbery:client:startSkillcheck', playerSource, sharedConfig.interiors[house.interior].skillcheck)
 
