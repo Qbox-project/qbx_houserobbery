@@ -5,11 +5,9 @@
         "leave_house": "[E] - Verlaat huis",
         "search": "[E] - Zoeken",
         "pickup": "[E] - Pak %s"
-
     },
     "notify": {
         "no_police": "Niet genoeg politie (%s Required)",
-
         "fail_skillcheck": "Skillcheck gefaald",
         "success_skillcheck": "Skillcheck gelukt",
         "busy": "Er is al iemand hiermee bezig",
