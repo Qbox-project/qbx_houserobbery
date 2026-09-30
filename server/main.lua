@@ -161,6 +161,7 @@ local function enterHouse(source, coords, bucket, closestHouseIndex)
     if not player then return end
 
     SetResourceKvpInt(player.PlayerData.citizenid, closestHouseIndex)
+    Player(source).state:set('houseRobbery', closestHouseIndex, true)
     TriggerClientEvent('qb-interior:client:screenfade', source)
     Wait(200)
     local ped = GetPlayerPed(source)
@@ -177,6 +178,7 @@ end
 ---@param source number
 ---@param coords vector3
 local function leaveHouse(source, coords)
+    Player(source).state:set('houseRobbery', nil, true)
     TriggerClientEvent('qb-interior:client:screenfade', source)
     Wait(200)
     local ped = GetPlayerPed(source)
@@ -360,6 +362,10 @@ end)
 AddEventHandler('playerDropped', function()
     releaseSearch(source, startedLoot, lootOwners)
     releaseSearch(source, startedPickup, pickupOwners)
+end)
+
+AddEventHandler('QBCore:Server:OnPlayerUnload', function(source)
+    Player(source).state:set('houseRobbery', nil, true)
 end)
 
 -- Startup thread to shuffle loot for all houses in configuration and sync configuration to clients
