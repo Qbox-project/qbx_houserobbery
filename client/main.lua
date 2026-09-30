@@ -4,6 +4,10 @@ local houseLoot = {}
 local house = 1
 local ITEMS = exports.ox_inventory:Items()
 
+AddStateBagChangeHandler('houseRobbery', ('player:%s'):format(cache.serverId), function(_, _, value)
+    if not value then lib.hideTextUI() end
+end)
+
 local function dropFingerprint()
     if qbx.isWearingGloves() then return end
 
@@ -164,6 +168,8 @@ end
 -- Handles showing house exit text and processing exit
 ---@param interiorId CPoint
 local function handleHouseExits(interiorId)
+    local currentHouse = sharedConfig.houses[LocalPlayer.state.houseRobbery]
+    if not currentHouse or currentHouse.interior ~= interiorId.interior then return end
 
     local label = locale('text.leave_house')
     if config.useDrawText then
@@ -175,6 +181,7 @@ local function handleHouseExits(interiorId)
         lib.playAnim(cache.ped, 'anim@heists@keycard@', 'exit', 5.0, 1.0, -1, 16, 0, false, false, false)
         TriggerServerEvent('qbx_houserobbery:server:leaveHouse')
         removeLoot()
+        lib.hideTextUI()
     end
 end
 
@@ -201,12 +208,12 @@ local function setupHouses()
     end
     for i = 1, #sharedConfig.interiors do
         local point = lib.points.new({
-            id = i,
+            interior = i,
             coords = sharedConfig.interiors[i].exit.xyz,
             distance = 1.6,
         })
         function point:onExit()
-            lib.hideTextUI()
+            if LocalPlayer.state.houseRobbery then lib.hideTextUI() end
         end
 
         function point:nearby()
